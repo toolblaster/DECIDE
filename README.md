@@ -16,9 +16,11 @@ Habit > Engagement: Designed for a 60-second daily session, not infinite scrolli
 
 Local-First: Data lives on the user's device. No login required.
 
+HTML-First: Content is visible immediately, ensuring speed and SEO even before JavaScript runs.
+
 ✨ Key Features
 
-V1: Core Functionality
+V1: Core Functionality (Active)
 
 Daily Input: Exactly three priority slots.
 
@@ -28,7 +30,7 @@ Read-Only Mode: Once saved, the day is locked to prevent tinkering.
 
 Local Storage: All data is persisted in browser localStorage.
 
-V2: Habit & Retention (Invisible Features)
+V2: Habit & Retention (Active - Invisible Logic)
 
 Yesterday Recall: If priorities were set yesterday, they are shown gently in the morning view to provide context.
 
@@ -38,21 +40,19 @@ Hidden Streaks: Tracks consistency internally to unlock features (see V3).
 
 Weekly Glimpse: Every 7 days, a text-based summary of keywords appears.
 
-V3: Advanced Features
+V3: Advanced & Monetization (Gated)
 
-Intentional Edit: Users can edit today's priorities, but only after a confirmation modal ("gentle friction") to discourage indecision.
+Intentional Edit: "Edit priorities" button with a confirmation modal ("gentle friction").
 
 Dark Mode: Manual toggle (Sun/Moon) with persistence.
 
-PWA Support: Installable on mobile home screens (iOS/Android) with offline support.
+PWA Support: Installable on mobile home screens (iOS/Android).
 
-Data Export (Gated):
+Data Export & Paywall (Disabled by Default):
 
-Constraint: Export button only appears after 7 days of usage.
+Code for PDF/CSV export and the "Calm Paywall" is included but disabled via the ENABLE_V3 flag in the source code.
 
-Monetization Layer: Includes a "Calm Paywall" simulation before unlocking exports.
-
-Formats: Weekly PDF, Monthly PDF, and CSV.
+Use the cheatsheet below to test or enable it for launch.
 
 💾 Data Model (LocalStorage)
 
@@ -79,21 +79,14 @@ Key: decide_meta_v1 (Stores app metadata & habits)
 }
 
 
-🤖 Project Context for AI Agents
+Key: decide_theme_v1 (UI Preference)
 
-If you are an AI modifying this codebase, adhere to these directives:
+"light" | "dark"
 
-Architecture: This is a Single-File Application (SPA) architecture contained within index.html. Logic is inline (or closely coupled). Do not split into a complex React/Vue build unless explicitly asked.
-
-No Libraries: Use Vanilla JS and Tailwind CSS via CDN. No npm install.
-
-Logic Gating: Features in V2/V3 (like Export or Reflection) depend on Time or State (e.g., hour >= 18 or streak >= 7). Do not remove these gates; they are essential to the product design.
-
-Tone: UX copy must remain calm, minimal, and non-judgmental.
 
 🛠 Tech Stack
 
-Architecture: HTML5 + Vanilla JS (ES6+).
+Architecture: Single-File HTML (HTML-First + JS Hydration).
 
 Styling: Tailwind CSS (via CDN).
 
@@ -103,9 +96,11 @@ PDF Generation: jsPDF + jspdf-autotable (via CDN).
 
 Icons: Inline SVG.
 
+Note on Architecture: The application logic is embedded directly within index.html to ensure zero build steps and instant deployment.
+
 🚀 How to Deploy
 
-Since DECIDE is a self-contained static site, deployment is instant.
+Since DECIDE is a self-contained single file, deployment is instant.
 
 Download: Save the index.html file.
 
@@ -119,11 +114,11 @@ Vercel
 
 Shared Hosting (cPanel/FTP)
 
-Monetization (AdSense):
+Monetization (Optional):
 
-Search index.html for <!-- PASTE YOUR AD CODE HERE -->.
+Search index.html for ENABLE_V3 and set it to true to enable the Paywall/Export logic.
 
-Paste your Google AdSense script code inside the container.
+Search for the .ad-container class logic if you wish to re-enable Adsense slots (currently removed for clean launch).
 
 🧪 Developer Cheatsheets
 
@@ -139,10 +134,13 @@ window.Date = class extends originalDate {
 ui.render();
 
 
-2. Unlock Export Button (Force 7-day streak)
+2. Unlock Export Button (Test V3)
+First, ensure const ENABLE_V3 = true; is set in the source code, or paste this:
 
-// Fakes a 7-day history count
-// Note: This just shows the button; generating the PDF requires actual data in store.data
+// Force enable V3 logic temporarily
+const ENABLE_V3 = true;
+
+// Create fake 7-day history to unlock the button
 store.data = {}; 
 for(let i=0; i<7; i++) {
     let d = new Date(); d.setDate(d.getDate()-i);
