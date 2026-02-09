@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /cgi-bin/
+
+Allow: /
+# Sitemap location
+Sitemap: https://decide.toolblaster.com/sitemap.xml
