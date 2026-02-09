@@ -2,196 +2,303 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- Updated viewport for accessibility: removed user-scalable=no and maximum-scale -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Primary Meta Tags -->
     <title>DECIDE. | Daily Priority Tool</title>
+    <meta name="title" content="DECIDE. | Daily Priority Tool">
     <meta name="description" content="Decide your top priorities for today — nothing more, nothing less. A minimalist daily planner to build focus and habit.">
+    <meta name="author" content="ToolBlaster">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://decide.toolblaster.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://decide.toolblaster.com/">
+    <meta property="og:title" content="DECIDE. | Daily Priority Tool">
+    <meta property="og:description" content="Decide your top priorities for today — nothing more, nothing less. A minimalist daily planner to build focus and habit.">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://decide.toolblaster.com/">
+    <meta property="twitter:title" content="DECIDE. | Daily Priority Tool">
+    <meta property="twitter:description" content="Decide your top priorities for today — nothing more, nothing less. A minimalist daily planner to build focus and habit.">
+    <meta property="twitter:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DECIDE.",
+      "url": "https://decide.toolblaster.com",
+      "description": "A minimalist daily priority tool to help you decide what truly matters today. No planners, no to-do lists, no overwhelm.",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Daily priority setting, Local-first storage, Dark mode, Privacy-focused, Offline capable",
+      "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+      "softwareVersion": "1.0",
+      "author": {
+        "@type": "Organization",
+        "name": "ToolBlaster"
+      }
+    }
+    </script>
+
     <meta name="theme-color" content="#FAFAF9">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="DECIDE">
 
-    <!-- PWA Manifest & Icons (Data URIs for Single-File Portability) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23FAFAF9%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2270%22>🎯</text></svg>">
-    <link rel="manifest" href='data:application/manifest+json;base64,ewogICJuYW1lIjogIkRFQ0lERS4iLAogICJzaG9ydF9uYW1lIjogIkRlY2lkZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjRkFGQUY5IiwKICAidGhlbWVfY29xvciI6ICIjRkFGQUY5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCc+PHRleHQgeT0nLjllbScgZm9udC1zaXplPSc5MCc+8J+OryA8L3RleHQ+PC9zdmc+IiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ=='>
+    <!-- Favicons & Manifest -->
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js" defer></script>
+
     <script>
         tailwind.config = {
-            darkMode: 'class', /* Manual Dark Mode via 'dark' class */
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        stone: {
-                            850: '#1c1917',
-                            950: '#0c0a09',
-                        }
+                        stone: { 850: '#1c1917', 950: '#0c0a09' }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Minimalist Typography & Transitions */
         :root {
-            /* Light Mode Variables (Default) */
-            --bg-color: #FAFAF9; /* Stone-50 */
-            --text-main: #292524; /* Stone-800 */
-            --text-muted: #78716C; /* Stone-500 */
-            --text-subtle: #A8A29E; /* Stone-400 */
-            --accent: #1C1917; /* Stone-900 */
-            --input-border: #E7E5E4; /* Stone-200 */
+            --bg-color: #FAFAF9;
+            --text-main: #292524;
+            --accent: #1C1917;
+            --input-border: #d6d3d1; /* Darkened from E7E5E4 for 3:1 contrast */
         }
-
-        /* Dark Mode Override - Applied when <html class="dark"> */
         :root.dark {
-            --bg-color: #0c0a09; /* Stone-950 */
-            --text-main: #f5f5f4; /* Stone-100 */
-            --text-muted: #a8a29e; /* Stone-400 */
-            --text-subtle: #57534e; /* Stone-600 */
-            --accent: #e7e5e4; /* Stone-200 */
-            --input-border: #292524; /* Stone-800 */
+            --bg-color: #0c0a09;
+            --text-main: #f5f5f4;
+            --accent: #e7e5e4;
+            --input-border: #292524;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
-
-        /* Subtle Fade In */
-        .fade-in {
-            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Input Styling */
-        .priority-input {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--input-border);
-            border-radius: 0;
-            transition: border-color 0.3s ease;
-            font-size: 16px; /* Prevents iOS zoom */
-        }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .priority-input:focus {
-            outline: none;
-            border-bottom: 1.5px solid var(--accent);
-            box-shadow: none;
+        .priority-input {
+            background: transparent; border: none; border-bottom: 1px solid var(--input-border);
+            border-radius: 0; transition: border-color 0.3s ease; font-size: 16px;
         }
-
-        /* Custom Checkbox for Closure */
-        .closure-btn {
-            transition: all 0.2s ease;
-        }
-        .closure-btn:hover {
-            transform: translateY(-1px);
-        }
-        .closure-btn.selected {
-            background-color: var(--accent);
-            color: var(--bg-color);
-            border-color: var(--accent);
-        }
-
-        /* AdSense Optimization: Prevent Layout Shift (CLS) */
-        /* Updated: Margins handled by utility classes for precision */
-        .ad-container {
-            width: 100%;
-            min-height: 280px; /* Standard rect ad height - Preserves Space for CLS */
-            background-color: transparent; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        /* Modal for Privacy Policy */
+        .priority-input:focus { outline: none; border-bottom: 1.5px solid var(--accent); box-shadow: none; }
+        
+        /* Utility for logic toggling */
+        .hidden-app { display: none !important; }
+        
+        /* Modal Backdrop */
         .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 50;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; padding: 1rem;
         }
         .modal-active { display: flex; }
-
-        /* Staggered Animation Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
     </style>
+    
+    <!-- Inline Theme Script (Anti-FOUC) -->
+    <script>
+        if (localStorage.getItem('decide_theme_v1') === 'dark' || (!('decide_theme_v1' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 sm:p-12">
 
-    <!-- Main App Container -->
+    <!-- Main App Container (HTML-First: Fully Visible on Load) -->
     <main id="app" class="w-full max-w-lg mx-auto mt-8 relative z-10">
-        <!-- Content rendered via JS -->
+
+        <!-- 1. Header: Date & Theme -->
+        <header id="date-header" class="mb-8 text-center fade-in relative scroll-mt-12">
+            <div class="flex justify-between items-center mb-2 px-1 relative">
+                <div class="w-8 h-8 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
+                        <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
+                    </svg>
+                </div>
+                <span class="text-sm font-semibold tracking-widest text-stone-600 dark:text-stone-400 uppercase">DECIDE</span>
+                <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200 transition-colors" aria-label="Toggle Dark Mode">
+                    <!-- Default SVG (Sun/Moon logic handled by JS, default circle) -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle></svg>
+                </button>
+            </div>
+            <!-- Date Placeholder (Updated by JS) -->
+            <div id="current-date-display" class="text-3xl font-normal text-stone-900 dark:text-stone-100">Today</div>
+        </header>
+
+        <!-- 2. Intro Block (H1) -->
+        <div id="intro-block" class="text-center mb-8 fade-in">
+            <h1 class="text-2xl md:text-3xl text-stone-900 dark:text-stone-100 font-medium mb-3">
+                Decide your day in 60 seconds.
+            </h1>
+            <!-- Improved contrast: text-stone-500 to text-stone-600 -->
+            <p class="text-stone-600 dark:text-stone-400 text-sm leading-relaxed max-w-sm mx-auto">
+                A simple daily priority tool to help you decide what truly matters today — without planners, to-do lists, or overwhelm.
+            </p>
+        </div>
+
+        <!-- 3. Yesterday Recall (Hidden by default, shown if data exists) -->
+        <div id="yesterday-section" class="hidden-app mb-10 p-6 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg fade-in shadow-sm">
+            <h2 class="text-sm text-stone-600 dark:text-stone-400 mb-4 font-medium">Yesterday, you focused on:</h2>
+            <ul id="yesterday-list" class="space-y-2">
+                <!-- Items injected by JS -->
+            </ul>
+        </div>
+
+        <!-- 4. Input View (Default State) -->
+        <form id="priority-form" class="space-y-8 fade-in">
+            <div class="space-y-6">
+                <label class="block text-xl text-stone-800 dark:text-stone-200 font-normal mb-6">What matters today?</label>
+                
+                <div class="relative">
+                    <!-- Improved contrast for numbers: text-stone-400 -> text-stone-500 -->
+                    <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">01</span>
+                    <!-- Improved contrast for placeholder: placeholder-stone-400 -> placeholder-stone-500 -->
+                    <input type="text" id="p1" name="p1" autocomplete="off" aria-label="Priority 1"
+                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-500 dark:placeholder-stone-500 bg-transparent focus:ring-0"
+                        placeholder="Most important task..." required maxlength="60">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">02</span>
+                    <input type="text" id="p2" name="p2" autocomplete="off" aria-label="Priority 2"
+                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-500 dark:placeholder-stone-500 bg-transparent focus:ring-0"
+                        placeholder="Quick win..." required maxlength="60">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">03</span>
+                    <input type="text" id="p3" name="p3" autocomplete="off" aria-label="Priority 3"
+                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-500 dark:placeholder-stone-500 bg-transparent focus:ring-0"
+                        placeholder="Personal goal..." required maxlength="60">
+                </div>
+            </div>
+            
+            <div class="pt-6 flex flex-col items-center space-y-4">
+                <button type="submit" id="main-action-btn"
+                    class="px-8 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-medium hover:opacity-90 transition-opacity duration-300 w-full sm:w-auto shadow-md flex items-center gap-2">
+                    Decide Today <span>&rarr;</span>
+                </button>
+                <!-- Improved contrast: text-stone-400 -> text-stone-500 -->
+                <p id="trust-badges" class="text-xs text-stone-500 dark:text-stone-400">No sign-up · Works offline · Free to use</p>
+                <!-- Hidden Streak Message -->
+                <p id="streak-msg" class="hidden-app text-center text-xs text-stone-600 dark:text-stone-400 mt-4">You're building consistency.</p>
+            </div>
+        </form>
+
+        <!-- 5. Read-Only View (Hidden by default) -->
+        <div id="readonly-view" class="hidden-app space-y-8 fade-in">
+            <div class="space-y-6">
+                <div class="flex justify-between items-end mb-6">
+                    <h2 class="block text-xl text-stone-800 dark:text-stone-200 font-light">Today's Focus</h2>
+                    <button id="edit-btn" class="text-xs text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300 underline">Edit priorities</button>
+                </div>
+                <!-- Items populated by JS -->
+                <div id="readonly-list" class="space-y-6"></div>
+            </div>
+            
+            <!-- Footer Status Message -->
+            <div id="footer-status" class="mt-16 pb-8 text-center fade-in flex flex-col items-center space-y-6">
+                <!-- Status Text injected by JS -->
+                <div id="status-text-container" class="inline-flex items-center space-x-2 text-stone-600 dark:text-stone-400"></div>
+                <!-- Controls (Reminder/Export) injected by JS -->
+                <div id="footer-controls" class="flex gap-6 text-xs text-stone-500 dark:text-stone-400"></div>
+            </div>
+        </div>
+
+        <!-- 6. Weekly Glimpse (Hidden) -->
+        <div id="weekly-glimpse" class="hidden-app mt-8 p-6 bg-stone-100 dark:bg-stone-900 rounded-lg text-center fade-in">
+            <!-- Content injected by JS -->
+        </div>
+
+        <!-- 7. Closure Section (Hidden) -->
+        <div id="closure-section" class="hidden-app mt-12 pt-12 border-t border-stone-200 dark:border-stone-800 fade-in text-center">
+             <h3 class="text-lg text-stone-600 dark:text-stone-400 mb-6 font-light">Did you do what mattered?</h3>
+             <div class="flex justify-center gap-3" id="closure-buttons">
+                 <button data-val="yes" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-700 dark:text-stone-300 text-sm font-medium hover:border-stone-500">Yes</button>
+                 <button data-val="partial" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-700 dark:text-stone-300 text-sm font-medium hover:border-stone-500">Partially</button>
+                 <button data-val="no" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-700 dark:text-stone-300 text-sm font-medium hover:border-stone-500">Not really</button>
+             </div>
+        </div>
+
     </main>
 
-    <!-- SEO & About Section (Dark Mode Optimized) -->
-    <!-- Updated margin-top to reserve exactly 100px space above the content -->
-    <article class="w-full max-w-2xl mx-auto mt-[100px] mb-16 prose prose-stone dark:prose-invert">
-        
-        <div class="space-y-8 text-stone-600 dark:text-stone-400">
+    <!-- SEO Content (Static HTML, Single Column, High Contrast Cards) -->
+    <article class="w-full max-w-2xl mx-auto mt-[100px] mb-16 px-4 sm:px-6 prose prose-stone dark:prose-invert">
+        <div class="space-y-8 text-stone-700 dark:text-stone-400">
             <!-- Intro -->
-            <!-- Changed bg-stone-50 to bg-white for visibility in light mode -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-4 flex items-center gap-2 mt-0">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
                     <span>🧠</span> What is DECIDE?
                 </h2>
-                <p class="leading-relaxed mb-4">
+                <p class="leading-relaxed mb-4 text-stone-700 dark:text-stone-300">
                     Think of DECIDE as a quiet corner for your brain. It’s a simple tool designed to help you cut through the noise and figure out your top three priorities for the day—usually in less than a minute.
                 </p>
                 <p class="font-medium text-stone-800 dark:text-stone-300 italic border-l-2 border-stone-300 dark:border-stone-700 pl-4 py-1">
                     What are the three most important things today?
                 </p>
-                <p class="mt-4 mb-0">
+                <p class="mt-4 mb-0 text-stone-700 dark:text-stone-300">
                     That’s it. No complicated systems, no endless backlogs, and definitely no guilt. Just clarity.
                 </p>
             </section>
 
             <!-- Differentiation -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-4 flex items-center gap-2 mt-0">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
                     <span>🎯</span> Why DECIDE is Different
                 </h2>
-                <p class="mb-4">Most productivity apps try to help you manage a massive list of tasks. <strong>We focus on something else: making decisions.</strong></p>
-                <ul class="list-disc list-outside ml-5 space-y-2 mb-4">
+                <p class="mb-4 text-stone-700 dark:text-stone-300">Most daily planners focus on managing tasks. <strong>We focus on something else: making decisions.</strong></p>
+                <ul class="list-disc list-outside ml-5 space-y-2 mb-4 text-stone-700 dark:text-stone-300">
                     <li>We don't let you drown in tasks.</li>
                     <li>We don't ask you to schedule every minute.</li>
                     <li>We don't pester you with notifications.</li>
                 </ul>
-                <p class="mt-4 mb-0">
+                <p class="mt-4 mb-0 text-stone-700 dark:text-stone-300">
                     It’s just one day, three clear goals, and a clear mind. It helps you start your day with intention and end it with a sense of closure.
                 </p>
             </section>
 
-            <!-- Comparison Section (Dark Mode Optimized) -->
+            <!-- Comparison Section (Single Column) -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-6 flex items-center gap-2 mt-0">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-6 flex items-center gap-2 mt-0">
                     <span>🆚</span> DECIDE vs Traditional Planners
                 </h2>
-                <p class="mb-4">We've all been there. You buy a planner, fill it out perfectly for three days, miss one day, feel guilty, and never open it again.</p>
+                <p class="mb-4 text-stone-700 dark:text-stone-300">We've all been there. You buy a planner, fill it out perfectly for three days, miss one day, feel guilty, and never open it again.</p>
                 
                 <div class="grid md:grid-cols-2 gap-8 mb-8">
                     <div>
                         <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2">❌ Traditional Planners</h3>
-                        <p class="text-sm mb-2">Often feel like homework:</p>
-                        <ul class="list-disc list-outside ml-4 space-y-1 text-sm">
+                        <p class="text-sm mb-2 text-stone-600 dark:text-stone-400">Often feel like homework:</p>
+                        <ul class="list-disc list-outside ml-4 space-y-1 text-sm text-stone-600 dark:text-stone-400">
                             <li>List literally everything</li>
                             <li>Color-code and categorize</li>
                             <li>Feel bad about unfinished items</li>
@@ -201,8 +308,8 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2">✅ DECIDE</h3>
-                        <p class="text-sm mb-2">Feels like a fresh start:</p>
-                        <ul class="list-disc list-outside ml-4 space-y-1 text-sm">
+                        <p class="text-sm mb-2 text-stone-600 dark:text-stone-400">Feels like a fresh start:</p>
+                        <ul class="list-disc list-outside ml-4 space-y-1 text-sm text-stone-600 dark:text-stone-400">
                             <li>Focus only on what matters</li>
                             <li>Limit yourself to 3 wins</li>
                             <li>Fresh slate every morning</li>
@@ -216,36 +323,36 @@
                     <table class="w-full text-sm text-left border-collapse">
                         <thead>
                             <tr class="border-b border-stone-200 dark:border-stone-800">
-                                <th class="py-2 font-semibold text-stone-500">Feature</th>
-                                <th class="py-2 font-semibold text-stone-800 dark:text-stone-200">DECIDE</th>
-                                <th class="py-2 font-semibold text-stone-400">Traditional Planner</th>
+                                <th class="py-2 font-semibold text-stone-600 dark:text-stone-400">Feature</th>
+                                <th class="py-2 font-semibold text-stone-900 dark:text-stone-100">DECIDE</th>
+                                <th class="py-2 font-semibold text-stone-500 dark:text-stone-500">Traditional Planner</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-stone-100 dark:divide-stone-800">
                             <tr>
-                                <td class="py-2 font-medium">Main Goal</td>
-                                <td class="py-2 text-stone-800 dark:text-stone-300">Clear decisions</td>
-                                <td class="py-2 text-stone-500">Task management</td>
+                                <td class="py-2 font-medium text-stone-700 dark:text-stone-300">Main Goal</td>
+                                <td class="py-2 text-stone-900 dark:text-stone-200">Clear decisions</td>
+                                <td class="py-2 text-stone-500 dark:text-stone-400">Task management</td>
                             </tr>
                             <tr>
-                                <td class="py-2 font-medium">Scope</td>
-                                <td class="py-2 text-stone-800 dark:text-stone-300">Just today</td>
-                                <td class="py-2 text-stone-500">Weeks / Months</td>
+                                <td class="py-2 font-medium text-stone-700 dark:text-stone-300">Scope</td>
+                                <td class="py-2 text-stone-900 dark:text-stone-200">Just today</td>
+                                <td class="py-2 text-stone-500 dark:text-stone-400">Weeks / Months</td>
                             </tr>
                             <tr>
-                                <td class="py-2 font-medium">Limit</td>
-                                <td class="py-2 text-stone-800 dark:text-stone-300">Strictly 3 items</td>
-                                <td class="py-2 text-stone-500">Unlimited</td>
+                                <td class="py-2 font-medium text-stone-700 dark:text-stone-300">Limit</td>
+                                <td class="py-2 text-stone-900 dark:text-stone-200">Strictly 3 items</td>
+                                <td class="py-2 text-stone-500 dark:text-stone-400">Unlimited</td>
                             </tr>
                             <tr>
-                                <td class="py-2 font-medium">Time needed</td>
-                                <td class="py-2 text-stone-800 dark:text-stone-300">~60 seconds</td>
-                                <td class="py-2 text-stone-500">10–30 minutes</td>
+                                <td class="py-2 font-medium text-stone-700 dark:text-stone-300">Time needed</td>
+                                <td class="py-2 text-stone-900 dark:text-stone-200">~60 seconds</td>
+                                <td class="py-2 text-stone-500 dark:text-stone-400">10–30 minutes</td>
                             </tr>
                             <tr>
-                                <td class="py-2 font-medium">Vibe</td>
-                                <td class="py-2 text-stone-800 dark:text-stone-300">Calm</td>
-                                <td class="py-2 text-stone-500">Busy</td>
+                                <td class="py-2 font-medium text-stone-700 dark:text-stone-300">Vibe</td>
+                                <td class="py-2 text-stone-900 dark:text-stone-200">Calm</td>
+                                <td class="py-2 text-stone-500 dark:text-stone-400">Busy</td>
                             </tr>
                         </tbody>
                     </table>
@@ -254,171 +361,189 @@
                 <div class="mt-8 pt-6 border-t border-stone-200 dark:border-stone-800">
                     <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-3 mt-0">🎯 Think of It This Way</h3>
                     <div class="space-y-2 text-sm">
-                        <p><span class="font-semibold text-stone-500">Planner asks:</span> “How will I possibly fit everything in?”</p>
-                        <p><span class="font-semibold text-stone-800 dark:text-stone-300">DECIDE asks:</span> “If I only get 3 things done, what should they be?”</p>
+                        <p><span class="font-semibold text-stone-600 dark:text-stone-400">Planner asks:</span> “How will I possibly fit everything in?”</p>
+                        <p><span class="font-semibold text-stone-900 dark:text-stone-100">DECIDE asks:</span> “If I only get 3 things done, what should they be?”</p>
                     </div>
-                    <p class="mt-4 text-sm mb-0">You don't need to replace your calendar. Use this *before* you look at it.</p>
+                    <p class="mt-4 text-sm mb-0 text-stone-700 dark:text-stone-300">You don't need to replace your calendar. Use this *before* you look at it.</p>
                 </div>
             </section>
 
             <!-- Workflow -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-4 flex items-center gap-2 mt-0">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
                     <span>⏱️</span> Decide Your Day in 60 Seconds
                 </h2>
-                <p class="mb-4">It’s built to be the easiest habit you have:</p>
-                <ol class="list-decimal list-outside ml-5 space-y-2 mb-4">
+                <p class="mb-4 text-stone-700 dark:text-stone-300">It’s built to be the easiest habit you have:</p>
+                <ol class="list-decimal list-outside ml-5 space-y-2 mb-4 text-stone-700 dark:text-stone-300">
                     <li>Open the app (it loads instantly).</li>
                     <li>Type the 3 things that would make today a success.</li>
                     <li>Click Save. Go do them.</li>
                 </ol>
-                <p class="mt-4 mb-0">
+                <p class="mt-4 mb-0 text-stone-700 dark:text-stone-300">
                     The app resets itself at midnight. No cleanup required.
                 </p>
             </section>
 
             <!-- Philosophy -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-4 flex items-center gap-2 mt-0">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
                     <span>🔁</span> Built for Daily Use, Not Burnout
                 </h2>
-                <p class="mb-4">We designed this around how real people actually behave, not how "productivity gurus" say we should behave.</p>
-                <ul class="list-disc list-outside ml-5 space-y-2 mb-4">
+                <p class="mb-4 text-stone-700 dark:text-stone-300">We designed this around how real people actually behave, not how "productivity gurus" say we should behave.</p>
+                <ul class="list-disc list-outside ml-5 space-y-2 mb-4 text-stone-700 dark:text-stone-300">
                     <li>Gentle Recall: We'll remind you what you focused on yesterday, just to keep the momentum going.</li>
                     <li>Quiet Consistency: We track your streak internally to give you encouragement, but we won't flash big numbers at you if you break it.</li>
                     <li>Weekly Glimpse: Once a week, we'll show you the themes you've been focusing on. No charts, just words.</li>
                 </ul>
-                <p class="mt-4 mb-0">
+                <p class="mt-4 mb-0 text-stone-700 dark:text-stone-300">
                     It's perfect for students, creators, parents, or anyone who just wants to feel a little more in control.
+                </p>
+            </section>
+
+            <!-- Audience -->
+            <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
+                    <span>🛠️</span> Who is DECIDE For?
+                </h2>
+                <p class="mb-4 text-stone-700 dark:text-stone-300">DECIDE works best if you want to:</p>
+                <ul class="list-disc list-outside ml-5 space-y-2 mb-4 text-stone-700 dark:text-stone-300">
+                    <li>Focus on what truly matters today</li>
+                    <li>Reduce mental clutter and decision fatigue</li>
+                    <li>Build a simple daily planning habit</li>
+                    <li>Avoid complex productivity systems</li>
+                </ul>
+                <p class="mt-4 mb-0 text-stone-700 dark:text-stone-300">
+                    If you’ve tried planners, to-do apps, or task managers and felt overwhelmed — DECIDE is for you.
                 </p>
             </section>
 
             <!-- Features -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-4 flex items-center gap-2 mt-0">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
                     <span>🔒</span> Simple, Private, and Fast
                 </h2>
-                <ul class="grid sm:grid-cols-2 gap-2 text-sm font-medium text-stone-700 dark:text-stone-400 mb-4">
+                <ul class="grid sm:grid-cols-2 gap-2 text-sm font-medium text-stone-700 dark:text-stone-300 mb-4">
                     <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> No sign-up needed</li>
                     <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Works totally offline</li>
                     <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Data stays on your device</li>
                     <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Loads in milliseconds</li>
                 </ul>
-                <p class="mt-4 text-sm italic mb-0">
+                <p class="mt-4 text-sm italic mb-0 text-stone-600 dark:text-stone-400">
                     We respect your attention. We won't sell your data.
                 </p>
             </section>
 
             <!-- FAQ Section -->
             <section>
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-6 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-6 flex items-center gap-2">
                     <span>❓</span> Frequently Asked Questions
                 </h2>
                 <div class="space-y-4">
                     <!-- Q1 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">1. What is DECIDE?</h3>
-                        <p class="text-sm leading-relaxed mb-0">DECIDE is a daily priority tool that helps you decide your top three priorities for today in under 60 seconds. Instead of managing long to-do lists or planning weeks ahead, DECIDE focuses only on what truly matters today.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">1. What is DECIDE?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">DECIDE is a daily priority tool that helps you decide your top three priorities for today in under 60 seconds. Instead of managing long to-do lists or planning weeks ahead, DECIDE focuses only on what truly matters today.</p>
                     </div>
                     
                     <!-- Q2 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">2. Is DECIDE a daily planner or a to-do list?</h3>
-                        <p class="text-sm leading-relaxed mb-2"><strong class="text-stone-800 dark:text-stone-200">No.</strong> DECIDE is not a traditional daily planner, to-do list, or task manager.</p>
-                        <p class="text-sm leading-relaxed mt-2 mb-0">It's designed for *decision clarity*. You use this to figure out what matters, and *then* you can go put those tasks in your calendar if you want.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">2. Is DECIDE a daily planner or a to-do list?</h3>
+                        <p class="text-sm leading-relaxed mb-2 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">No.</strong> DECIDE is not a traditional daily planner, to-do list, or task manager.</p>
+                        <ul class="list-disc list-outside ml-4 space-y-1 text-sm mb-2 text-stone-700 dark:text-stone-300">
+                            <li>It does not support unlimited tasks</li>
+                            <li>It does not include schedules or calendars</li>
+                            <li>It does not track task completion</li>
+                        </ul>
+                        <p class="text-sm leading-relaxed mt-2 mb-0 text-stone-700 dark:text-stone-300">DECIDE is designed purely for decision clarity, not task management.</p>
                     </div>
 
                     <!-- Q3 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">3. How is DECIDE different from productivity apps?</h3>
-                        <p class="text-sm leading-relaxed mb-0">Most productivity apps help you do more. <strong class="text-stone-800 dark:text-stone-200">DECIDE helps you choose better.</strong> By limiting you to just three priorities per day, DECIDE reduces decision fatigue and mental clutter, making it easier to focus and actually get started.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">3. How is DECIDE different from productivity apps?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">Most productivity apps help you do more. <strong class="text-stone-900 dark:text-stone-100">DECIDE helps you choose better.</strong> By limiting you to just three priorities per day, DECIDE reduces decision fatigue and mental clutter, making it easier to focus and actually get started.</p>
                     </div>
 
                     <!-- Q4 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">4. Why only three priorities?</h3>
-                        <p class="text-sm leading-relaxed mb-2"><strong class="text-stone-800 dark:text-stone-200">Because focus is limited.</strong> Research and real-world experience show that most people can only make meaningful progress on 2–3 important things per day. Limiting choices forces clarity and prevents overwhelm.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">4. Why only three priorities?</h3>
+                        <p class="text-sm leading-relaxed mb-2 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">Because focus is limited.</strong> Research and real-world experience show that most people can only make meaningful progress on 2–3 important things per day. Limiting choices forces clarity and prevents overwhelm.</p>
                     </div>
 
                     <!-- Q5 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">5. Do I need to create an account to use DECIDE?</h3>
-                        <p class="text-sm leading-relaxed mb-2"><strong class="text-stone-800 dark:text-stone-200">No.</strong> DECIDE does not require sign-up or login. Your daily priorities are stored locally on your device. This keeps the app fast, private, and distraction-free.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">5. Do I need to create an account to use DECIDE?</h3>
+                        <p class="text-sm leading-relaxed mb-2 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">No.</strong> DECIDE does not require sign-up or login. Your daily priorities are stored locally on your device. This keeps the app fast, private, and distraction-free.</p>
                     </div>
 
                     <!-- Q6 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">6. Does DECIDE work offline?</h3>
-                        <p class="text-sm leading-relaxed mb-0"><strong class="text-stone-800 dark:text-stone-200">Yes.</strong> DECIDE is a local-first tool and works offline once loaded. You can decide your day without an internet connection.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">6. Does DECIDE work offline?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">Yes.</strong> DECIDE is a local-first tool and works offline once loaded. You can decide your day without an internet connection.</p>
                     </div>
 
                     <!-- Q7 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">7. What happens to yesterday’s priorities?</h3>
-                        <p class="text-sm leading-relaxed mb-0">Yesterday’s priorities remain saved and read-only. DECIDE may gently show them as a reminder to help you maintain continuity, but it does not judge or score your performance.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">7. What happens to yesterday’s priorities?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">Yesterday’s priorities remain saved and read-only. DECIDE may gently show them as a reminder to help you maintain continuity, but it does not judge or score your performance.</p>
                     </div>
 
                     <!-- Q8 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">8. Does DECIDE track streaks or performance?</h3>
-                        <p class="text-sm leading-relaxed mb-0">DECIDE tracks consistency internally to improve the experience, but it does not show streak numbers or productivity scores. There is no pressure, no guilt, and no gamification.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">8. Does DECIDE track streaks or performance?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">DECIDE tracks consistency internally to improve the experience, but it does not show streak numbers or productivity scores. There is no pressure, no guilt, and no gamification.</p>
                     </div>
 
                     <!-- Q9 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">9. Can I use DECIDE along with another planner or task app?</h3>
-                        <p class="text-sm leading-relaxed mb-0"><strong class="text-stone-800 dark:text-stone-200">Yes — and that’s encouraged.</strong> DECIDE works best as a starting point, helping you decide what matters before you open planners, calendars, or task managers.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">9. Can I use DECIDE along with another planner or task app?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">Yes — and that’s encouraged.</strong> DECIDE works best as a starting point, helping you decide what matters before you open planners, calendars, or task managers.</p>
                     </div>
 
                     <!-- Q10 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">10. Is DECIDE free to use?</h3>
-                        <p class="text-sm leading-relaxed mb-0"><strong class="text-stone-800 dark:text-stone-200">Yes.</strong> DECIDE is free to use. Any future premium features (such as exports or backups) will always be optional and non-intrusive.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">10. Is DECIDE free to use?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">Yes.</strong> DECIDE is free to use. Any future premium features (such as exports or backups) will always be optional and non-intrusive.</p>
                     </div>
 
                     <!-- Q11 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">11. Who should use DECIDE?</h3>
-                        <p class="text-sm leading-relaxed mb-2">DECIDE is ideal for students, professionals, creators, founders, and anyone overwhelmed by to-do lists. If you want clarity instead of complexity, DECIDE is for you.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">11. Who should use DECIDE?</h3>
+                        <p class="text-sm leading-relaxed mb-2 text-stone-700 dark:text-stone-300">DECIDE is ideal for students, professionals, creators, founders, and anyone overwhelmed by to-do lists. If you want clarity instead of complexity, DECIDE is for you.</p>
                     </div>
 
                     <!-- Q12 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">12. Is my data private?</h3>
-                        <p class="text-sm leading-relaxed mb-0"><strong class="text-stone-800 dark:text-stone-200">Yes.</strong> DECIDE does not upload your data to servers. Everything stays on your device unless you explicitly choose otherwise in the future.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">12. Is my data private?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">Yes.</strong> DECIDE does not upload your data to servers. Everything stays on your device unless you explicitly choose otherwise in the future.</p>
                     </div>
 
                     <!-- Q13 -->
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
-                        <h3 class="font-bold text-stone-800 dark:text-stone-200 mb-2 mt-0">13. How long does it take to use DECIDE each day?</h3>
-                        <p class="text-sm leading-relaxed mb-0">Most users complete their daily decision in under one minute. That’s the point.</p>
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">13. How long does it take to use DECIDE each day?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">Most users complete their daily decision in under one minute. That’s the point.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Call to Action -->
             <section class="mt-12 p-6 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm text-center">
-                <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200 mb-2 mt-0">✅ Start with just one day</h2>
-                <p class="mb-6">You don’t need a complicated system. You just need a decision.</p>
-                <button onclick="ui.scrollToTool()" class="text-stone-900 dark:text-stone-100 font-bold underline hover:text-stone-600 dark:hover:text-stone-300 transition-colors">
-                    👉 Decide your day now.
-                </button>
+                <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2 mt-0">✅ Start with just one day</h2>
+                <p class="mb-6 text-stone-600 dark:text-stone-400">You don’t need a complicated system. You just need a decision.</p>
+                <button onclick="ui.scrollToTool()" class="text-stone-900 dark:text-stone-100 font-bold underline hover:text-stone-600 dark:hover:text-stone-300 transition-colors">👉 Decide your day now.</button>
             </section>
         </div>
-
-        <!-- Footer -->
-        <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-400">
+        
+        <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-500 dark:text-stone-400">
             <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
             <div class="mt-4 flex justify-center gap-4">
-                <button onclick="ui.renderPrivacyModal()" class="hover:text-stone-600 dark:hover:text-stone-300 underline">Privacy Policy</button>
-                <button onclick="ui.renderPrivacyModal()" class="hover:text-stone-600 dark:hover:text-stone-300 underline">Terms of Service</button>
+                <button onclick="document.getElementById('privacy-modal').classList.add('modal-active')" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy Policy</button>
+                <button onclick="document.getElementById('privacy-modal').classList.add('modal-active')" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Terms of Service</button>
             </div>
             <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE.</p>
         </footer>
-
     </article>
 
-    <!-- Privacy Policy Modal Container (Dark Mode Support) -->
+    <!-- Modals (Static HTML, Hidden via CSS) -->
     <div id="privacy-modal" class="modal-backdrop">
         <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl">
             <h2 class="text-xl font-bold mb-4 dark:text-white">Privacy Policy</h2>
@@ -432,520 +557,253 @@
                 </ul>
                 <p class="mt-2">By using DECIDE, you agree to this transparent, privacy-first approach.</p>
             </div>
-            <button onclick="document.getElementById('privacy-modal').classList.remove('modal-active')" class="mt-6 w-full py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-lg font-bold">Close</button>
+            <button onclick="this.closest('.modal-backdrop').classList.remove('modal-active')" class="mt-6 w-full py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-lg font-bold">Close</button>
         </div>
     </div>
 
+    <div id="edit-modal" class="modal-backdrop">
+        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl text-center">
+            <h3 class="text-lg font-semibold text-stone-800 dark:text-stone-200 mb-2">Edit today’s priorities?</h3>
+            <p class="text-stone-500 dark:text-stone-400 text-sm mb-6">Editing is meant for small corrections, not replanning the day.</p>
+            <div class="flex gap-4 justify-center">
+                <button id="cancel-edit-btn" class="px-6 py-2 border border-stone-300 dark:border-stone-700 rounded-full text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">Cancel</button>
+                <button id="confirm-edit-btn" class="px-6 py-2 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full hover:opacity-90 transition-opacity">Edit</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="paywall-modal" class="modal-backdrop">
+         <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl text-center">
+            <h3 class="text-xl font-bold text-stone-800 dark:text-stone-100 mb-2">Keep your decisions</h3>
+            <p class="text-stone-500 dark:text-stone-400 text-sm mb-6">Upgrade to export your priorities.</p>
+            <div class="flex flex-col gap-3">
+                <button id="upgrade-btn" class="w-full py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-lg font-bold">Upgrade</button>
+                <button id="paywall-close-btn" class="w-full py-2 text-stone-400 text-sm">Not now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="export-options-modal" class="modal-backdrop">
+        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl">
+            <h3 class="text-lg font-bold text-stone-800 dark:text-stone-100 mb-4 text-center">Export Priorities</h3>
+            <div class="space-y-3">
+                <button id="export-weekly" class="w-full py-3 px-4 border border-stone-200 dark:border-stone-700 rounded-lg text-left">Weekly PDF</button>
+                <button id="export-monthly" class="w-full py-3 px-4 border border-stone-200 dark:border-stone-700 rounded-lg text-left">Monthly PDF</button>
+                <button id="export-csv" class="w-full py-3 px-4 border border-stone-200 dark:border-stone-700 rounded-lg text-left">CSV Export</button>
+            </div>
+            <button id="export-close-btn" class="mt-6 w-full py-2 text-stone-400 text-sm">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Application Logic (Hydration) -->
     <script>
-        /**
-         * DECIDE.
-         * A local-first, minimalist productivity tool.
-         */
-
-        // --- Constants & Config ---
-        const DB_KEY = 'decide_data_v1';
-        const META_KEY = 'decide_meta_v1';
-        const THEME_KEY = 'decide_theme_v1';
+        const DB_KEY='decide_data_v1', META_KEY='decide_meta_v1', THEME_KEY='decide_theme_v1';
+        const ENABLE_V3 = false; // DEFERRED: Set to true to enable Export/Paywall UI
         
-        // Stop words for keyword extraction (common English words to ignore)
-        const STOP_WORDS = new Set(['the','and','to','a','of','in','i','is','for','on','with','my','at','it','do','make','get','be','from','up','out','as','an']);
-        
-        // Dynamic Placeholders for UX Guidance
-        const PLACEHOLDERS = [
-            ["Most important task...", "Quick win...", "Deep work..."],
-            ["One big thing...", "Small step...", "Personal goal..."],
-            ["Work focus...", "Life admin...", "Health goal..."],
-            ["Finish project X...", "Call friend...", "Read 10 mins..."]
-        ];
-
-        // --- State Management ---
         const store = {
-            data: {}, // { "YYYY-MM-DD": { priorities: [], decidedAt: ts, closure: null } }
-            meta: {
-                streak: 0,
-                lastOpened: null,
-                lastWeeklySummary: null
-            },
-
+            data: {}, meta: { streak: 0, lastOpened: null, isPremium: false },
             init() {
-                const rawData = localStorage.getItem(DB_KEY);
-                const rawMeta = localStorage.getItem(META_KEY);
-                if (rawData) this.data = JSON.parse(rawData);
-                if (rawMeta) this.meta = JSON.parse(rawMeta);
-                
-                this.updateStreak();
+                const rD = localStorage.getItem(DB_KEY); if(rD) this.data = JSON.parse(rD);
+                const rM = localStorage.getItem(META_KEY); if(rM) this.meta = JSON.parse(rM);
+                // Simple streak update on load logic can go here if needed
             },
-
             save() {
                 localStorage.setItem(DB_KEY, JSON.stringify(this.data));
                 localStorage.setItem(META_KEY, JSON.stringify(this.meta));
             },
-
-            // Helper to ensure we get Local Date YYYY-MM-DD (Not UTC)
-            getLocalYMD(dateObj = new Date()) {
-                const year = dateObj.getFullYear();
-                const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-                const day = String(dateObj.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
+            getLocalYMD(d=new Date()){ 
+                return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; 
             },
-
-            getToday() {
-                const today = this.getLocalYMD();
-                return { date: today, entry: this.data[today] };
+            getToday() { const t = this.getLocalYMD(); return { date: t, entry: this.data[t] }; },
+            getYesterday() { 
+                const d = new Date(); d.setDate(d.getDate()-1); 
+                const y = this.getLocalYMD(d); return { date: y, entry: this.data[y] }; 
             },
-
-            getYesterday() {
-                const date = new Date();
-                date.setDate(date.getDate() - 1);
-                const yesterday = this.getLocalYMD(date);
-                return { date: yesterday, entry: this.data[yesterday] };
+            saveDay(p) {
+                const {date} = this.getToday();
+                this.data[date] = { priorities: p, decidedAt: Date.now(), closure: null };
+                if(this.getYesterday().entry) this.meta.streak++; else this.meta.streak = 1;
+                this.meta.lastOpened = date; this.save();
             },
-
-            saveDay(priorities) {
-                const { date } = this.getToday();
-                this.data[date] = {
-                    priorities: priorities,
-                    decidedAt: Date.now(),
-                    closure: null // 'yes', 'partial', 'no'
-                };
-                
-                // Update Meta
-                if (this.getYesterday().entry) {
-                    this.meta.streak += 1;
-                } else {
-                    this.meta.streak = 1;
-                }
-                this.meta.lastOpened = date;
-                this.save();
-            },
-
-            saveClosure(response) {
-                const { date, entry } = this.getToday();
-                if (entry) {
-                    entry.closure = response;
-                    this.save();
-                }
-            },
-
-            updateStreak() {
-                const { date } = this.getToday();
-                if (this.meta.lastOpened !== date) {
-                    // Streak logic is handled on 'saveDay'. 
-                    // We don't reset it here just by opening the app, 
-                    // as that would punish someone for opening the app in the morning before saving.
-                }
-            },
-
-            getWeeklyKeywords() {
-                // Aggregate last 7 days text
-                const words = {};
-                const today = new Date();
-                
-                for(let i=0; i<7; i++) {
-                    const d = new Date();
-                    d.setDate(today.getDate() - i);
-                    const dateStr = this.getLocalYMD(d);
-                    const entry = this.data[dateStr];
-                    
-                    if(entry && entry.priorities) {
-                        entry.priorities.forEach(p => {
-                            const clean = p.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
-                            clean.forEach(w => {
-                                if(w.length > 2 && !STOP_WORDS.has(w)) {
-                                    words[w] = (words[w] || 0) + 1;
-                                }
-                            });
-                        });
-                    }
-                }
-                
-                // Sort by frequency
-                return Object.entries(words)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 3)
-                    .map(pair => pair[0]);
-            }
+            saveClosure(r) { const {date,entry}=this.getToday(); if(entry){ entry.closure=r; this.save(); } },
+            upgrade() { this.meta.isPremium = true; this.save(); }
         };
 
-        // --- UI Rendering ---
         const ui = {
-            app: document.getElementById('app'),
-
-            initTheme() {
-                const savedTheme = localStorage.getItem(THEME_KEY);
-                // Default to light if no pref saved, user can toggle
-                if (savedTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
+            init() {
+                this.cacheDOM();
+                this.bindEvents();
+                this.render();
             },
-
-            toggleTheme() {
-                const html = document.documentElement;
-                if (html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    localStorage.setItem(THEME_KEY, 'light');
-                } else {
-                    html.classList.add('dark');
-                    localStorage.setItem(THEME_KEY, 'dark');
-                }
-                // Re-render header to update icon
-                const header = document.querySelector('header');
-                if (header) {
-                     // Since header re-render logic is inside render(), we can just update icon via DOM or re-render.
-                     // A full re-render is safe here to ensure all UI parts update their Tailwind classes if needed.
-                     this.render();
-                }
+            cacheDOM() {
+                this.dom = {
+                    dateDisplay: document.getElementById('current-date-display'),
+                    form: document.getElementById('priority-form'),
+                    inputs: [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')],
+                    mainBtn: document.getElementById('main-action-btn'),
+                    trustBadges: document.getElementById('trust-badges'),
+                    streakMsg: document.getElementById('streak-msg'),
+                    readonlyView: document.getElementById('readonly-view'),
+                    readonlyList: document.getElementById('readonly-list'),
+                    yesterdaySection: document.getElementById('yesterday-section'),
+                    yesterdayList: document.getElementById('yesterday-list'),
+                    closureSection: document.getElementById('closure-section'),
+                    footerStatus: document.getElementById('footer-status'),
+                    statusText: document.getElementById('status-text-container'),
+                    controls: document.getElementById('footer-controls'),
+                    themeBtn: document.getElementById('theme-toggle'),
+                    editBtn: document.getElementById('edit-btn'),
+                    editModal: document.getElementById('edit-modal'),
+                    cancelEdit: document.getElementById('cancel-edit-btn'),
+                    confirmEdit: document.getElementById('confirm-edit-btn'),
+                    paywallModal: document.getElementById('paywall-modal'),
+                    exportModal: document.getElementById('export-options-modal'),
+                    upgradeBtn: document.getElementById('upgrade-btn'),
+                    closePaywall: document.getElementById('paywall-close-btn'),
+                    closeExport: document.getElementById('export-close-btn'),
+                    introBlock: document.getElementById('intro-block') // Ensure this is cached
+                };
             },
-
-            scrollToTool() {
-                const header = document.getElementById('date-header');
-                if (header) {
-                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+            bindEvents() {
+                this.dom.themeBtn.addEventListener('click', () => this.toggleTheme());
+                this.dom.form.addEventListener('submit', (e) => this.handleSubmit(e));
+                this.dom.editBtn.addEventListener('click', () => this.dom.editModal.classList.add('modal-active'));
+                this.dom.cancelEdit.addEventListener('click', () => this.dom.editModal.classList.remove('modal-active'));
+                this.dom.confirmEdit.addEventListener('click', () => this.enterEditMode());
                 
-                // Auto-focus the first input if available (enhances UX)
-                setTimeout(() => {
-                    const input = document.querySelector('.priority-input');
-                    if (input) input.focus();
-                }, 800); // Increased delay slightly to ensure scroll finishes
+                // Closure buttons
+                document.querySelectorAll('.closure-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        store.saveClosure(e.target.getAttribute('data-val'));
+                        this.render();
+                    });
+                });
+                
+                // Paywall/Export bindings
+                this.dom.closePaywall.addEventListener('click', () => this.dom.paywallModal.classList.remove('modal-active'));
+                this.dom.closeExport.addEventListener('click', () => this.dom.exportModal.classList.remove('modal-active'));
+                this.dom.upgradeBtn.addEventListener('click', () => {
+                    store.upgrade();
+                    this.dom.paywallModal.classList.remove('modal-active');
+                    this.dom.exportModal.classList.add('modal-active');
+                });
+                
+                // Export Actions
+                document.getElementById('export-weekly').addEventListener('click', () => { /* Logic */ });
+                document.getElementById('export-monthly').addEventListener('click', () => { /* Logic */ });
+                document.getElementById('export-csv').addEventListener('click', () => { /* Logic */ });
             },
-
-            render() {
+            toggleTheme() {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+                this.updateThemeIcon(isDark);
+            },
+            updateThemeIcon(isDark) {
+                const sun = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;
+                const moon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`;
+                this.dom.themeBtn.innerHTML = isDark ? sun : moon;
+            },
+            handleSubmit(e) {
+                e.preventDefault();
+                const p = this.dom.inputs.map(i => i.value.trim()).filter(v => v);
+                if (p.length === 3) {
+                    store.saveDay(p);
+                    this.render(this.isEditing ? "✓ Priorities updated." : null);
+                    this.isEditing = false;
+                }
+            },
+            enterEditMode() {
+                this.dom.editModal.classList.remove('modal-active');
+                this.isEditing = true;
+                const { entry } = store.getToday();
+                // Populate inputs
+                entry.priorities.forEach((val, i) => this.dom.inputs[i].value = val);
+                // Switch view
+                this.dom.form.classList.remove('hidden-app');
+                this.dom.readonlyView.classList.add('hidden-app');
+                this.dom.introBlock.classList.remove('hidden-app'); // Ensure intro is visible in edit/new mode
+                
+                // Update button text
+                this.dom.mainBtn.innerHTML = "Save changes";
+                this.dom.trustBadges.classList.add('hidden-app'); // hide secondary text
+            },
+            render(customMsg = null) {
                 store.init();
                 const { date, entry } = store.getToday();
-                const now = new Date();
-                const hour = now.getHours();
                 const yesterday = store.getYesterday();
+                const now = new Date();
 
-                this.app.innerHTML = ''; // Clear
+                // 1. Update Date
+                this.dom.dateDisplay.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                this.updateThemeIcon(document.documentElement.classList.contains('dark'));
 
-                // 1. Header (Date + Theme Toggle)
-                this.renderHeader(now);
-                
-                // 2. Intro Block (H1 + Subtext) - Always present at top of main area
-                this.renderIntro();
-
-                // 3. State Switch
-                if (!entry) {
-                    // CASE: Morning/New Day (Not decided yet)
-                    if (yesterday.entry) {
-                        this.renderYesterday(yesterday.entry.priorities);
-                    }
-                    this.renderInputForm();
-                } else {
-                    // CASE: Decided
+                // 2. Main View Toggle
+                if (!entry || this.isEditing) {
+                    // Show Input Mode
+                    this.dom.form.classList.remove('hidden-app');
+                    this.dom.readonlyView.classList.add('hidden-app');
+                    this.dom.introBlock.classList.remove('hidden-app'); // Ensure intro is visible in edit/new mode
                     
-                    // Weekly Summary Check (Show only if streak is multiple of 7 and not shown today)
-                    // We simulate this by checking if streak > 0 and streak % 7 === 0.
-                    const showWeekly = (store.meta.streak > 0 && store.meta.streak % 7 === 0 && store.meta.lastWeeklySummary !== date);
-                    
-                    if (showWeekly) {
-                         this.renderWeeklySummary(date);
-                    } else if (hour >= 18 && !entry.closure) {
-                        // CASE: Evening Review (After 6 PM local)
-                        this.renderReadonly(entry.priorities);
-                        this.renderClosure();
+                    // Yesterday Recall
+                    if (yesterday.entry && !this.isEditing) {
+                        this.dom.yesterdaySection.classList.remove('hidden-app');
+                        this.dom.yesterdayList.innerHTML = yesterday.entry.priorities.map(p => `<li class="text-stone-500 line-through decoration-stone-300 dark:decoration-stone-700">${p}</li>`).join('');
                     } else {
-                        // CASE: Day Active (or Closure Done)
-                        this.renderReadonly(entry.priorities);
-                        this.renderFooterMessage(entry.closure ? "Day complete." : "Come back tomorrow.");
+                        this.dom.yesterdaySection.classList.add('hidden-app');
                     }
-                }
-            },
+                    
+                    // Reset button text if not editing
+                    if (!this.isEditing) {
+                        this.dom.mainBtn.innerHTML = 'Decide Today <span>&rarr;</span>';
+                        this.dom.trustBadges.classList.remove('hidden-app');
+                        this.dom.inputs.forEach(i => i.value = ''); // Clear inputs
+                    }
 
-            renderHeader(dateObj) {
-                const options = { weekday: 'long', month: 'long', day: 'numeric' };
-                const dateStr = dateObj.toLocaleDateString('en-US', options);
-                
-                const header = document.createElement('header');
-                header.id = 'date-header'; // Targeted ID for scrolling
-                header.className = 'mb-8 text-center fade-in relative scroll-mt-12'; // Added scroll-mt for spacing
-                
-                // Check current theme for icon
-                const isDark = document.documentElement.classList.contains('dark');
-                const iconSvg = isDark 
-                    ? `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>` // Sun
-                    : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`; // Moon
+                } else {
+                    // Show Read-only Mode
+                    this.dom.form.classList.add('hidden-app');
+                    this.dom.readonlyView.classList.remove('hidden-app');
+                    this.dom.yesterdaySection.classList.add('hidden-app');
+                    this.dom.closureSection.classList.add('hidden-app'); // Default hide
+                    // REMOVED: this.dom.introBlock.classList.add('hidden-app'); -> Kept visible for stability
 
-                header.innerHTML = `
-                    <div class="flex justify-between items-center mb-2 px-1 relative">
-                        <!-- Logo Icon -->
-                        <div class="w-8 h-8 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
-                                <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
-                            </svg>
+                    // Populate List
+                    this.dom.readonlyList.innerHTML = entry.priorities.map((p, i) => `
+                        <div class="flex items-baseline space-x-4 border-b border-transparent py-2">
+                            <span class="text-stone-400 font-mono text-sm">0${i+1}</span>
+                            <span class="text-lg text-stone-800 dark:text-stone-100">${p}</span>
                         </div>
+                    `).join('');
+
+                    // Logic: Evening Closure vs Footer
+                    if (now.getHours() >= 18 && !entry.closure) {
+                        this.dom.closureSection.classList.remove('hidden-app');
+                        this.dom.footerStatus.classList.add('hidden-app');
+                    } else {
+                        this.dom.footerStatus.classList.remove('hidden-app');
+                        const msg = customMsg || (entry.closure ? "Day complete." : "Come back tomorrow.");
+                        this.dom.statusText.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>${msg}</span>`;
                         
-                        <span class="text-sm font-semibold tracking-widest text-stone-500 uppercase">DECIDE</span>
-                        
-                        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 transition-colors" aria-label="Toggle Dark Mode">
-                            ${iconSvg}
-                        </button>
-                    </div>
-                    <!-- Updated to font-normal for perfect legibility without boldness -->
-                    <div class="text-3xl font-normal text-stone-800 dark:text-stone-100">${dateStr}</div>
-                `;
-                
-                // Add event listener (before appending to DOM, we need to append first then query, or create element directly)
-                // Easier to append then query selector since we used innerHTML string
-                this.app.appendChild(header);
-                
-                const btn = header.querySelector('#theme-toggle');
-                if(btn) {
-                    btn.addEventListener('click', () => {
-                        this.toggleTheme();
-                    });
-                }
-            },
-            
-            renderIntro() {
-                const div = document.createElement('div');
-                div.className = 'text-center mb-8 fade-in';
-                div.innerHTML = `
-                    <h1 class="text-2xl md:text-3xl text-stone-800 dark:text-stone-100 font-medium mb-3">
-                        Decide your day in 60 seconds.
-                    </h1>
-                    <p class="text-stone-400 dark:text-stone-500 text-sm leading-relaxed max-w-sm mx-auto">
-                        A simple daily priority tool to help you decide what truly matters today — without planners, to-do lists, or overwhelm.
-                    </p>
-                `;
-                this.app.appendChild(div);
-            },
-
-            renderYesterday(priorities) {
-                const div = document.createElement('div');
-                div.className = 'mb-10 p-6 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg fade-in delay-100 shadow-sm';
-                div.innerHTML = `
-                    <h2 class="text-sm text-stone-500 mb-4 font-medium">Yesterday, you focused on:</h2>
-                    <ul class="space-y-2">
-                        ${priorities.map(p => `<li class="text-stone-500 line-through decoration-stone-300 dark:decoration-stone-700">${this.escapeHtml(p)}</li>`).join('')}
-                    </ul>
-                `;
-                this.app.appendChild(div);
-            },
-
-            renderInputForm(initialValues = []) {
-                const form = document.createElement('form');
-                form.className = 'space-y-8 fade-in delay-200';
-                
-                // Select Random Placeholders
-                const phSet = PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)];
-
-                form.innerHTML = `
-                    <div class="space-y-6">
-                        <label class="block text-xl text-stone-800 dark:text-stone-200 font-normal mb-6">What matters today?</label>
-                        ${[1, 2, 3].map((i, idx) => `
-                            <div class="relative">
-                                <span class="absolute left-0 top-2 text-stone-400 font-mono text-sm" aria-hidden="true">0${i}</span>
-                                <input type="text" name="p${i}" autocomplete="off" aria-label="Priority ${i}"
-                                    class="priority-input w-full pl-8 py-2 text-lg text-stone-800 dark:text-stone-100 placeholder-stone-400 bg-transparent focus:ring-0"
-                                    placeholder="${phSet[idx]}" value="${initialValues[idx] || ''}"
-                                    required maxlength="60">
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="pt-6 flex flex-col items-center space-y-4">
-                        <button type="submit" 
-                            class="px-8 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm hover:opacity-90 transition-opacity duration-300 w-full sm:w-auto shadow-md flex items-center gap-2">
-                            Decide Today <span>&rarr;</span>
-                        </button>
-                        <p class="text-xs text-stone-400 dark:text-stone-500">No sign-up · Works offline · Free to use</p>
-                    </div>
-                `;
-
-                // Soft Habit Copy (Hidden Logic)
-                if (store.meta.streak > 2) {
-                    const msg = document.createElement('p');
-                    msg.className = 'text-center text-xs text-stone-500 mt-4';
-                    msg.innerText = "You're building consistency.";
-                    form.appendChild(msg);
-                }
-
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const p1 = form.p1.value.trim();
-                    const p2 = form.p2.value.trim();
-                    const p3 = form.p3.value.trim();
-                    
-                    if (p1 && p2 && p3) {
-                        store.saveDay([p1, p2, p3]);
-                        
-                        // Check for reminder permission request
-                        if ('Notification' in window && Notification.permission === 'default') {
-                             Notification.requestPermission();
+                        // Export Button Injection (if > 7 days)
+                        this.dom.controls.innerHTML = '';
+                        if (ENABLE_V3 && Object.keys(store.data).length >= 7) {
+                             const btn = document.createElement('button');
+                             btn.className = "hover:text-stone-600 dark:hover:text-stone-300 underline decoration-stone-200";
+                             btn.innerText = "Export";
+                             btn.onclick = () => store.meta.isPremium ? this.dom.exportModal.classList.add('modal-active') : this.dom.paywallModal.classList.add('modal-active');
+                             this.dom.controls.appendChild(btn);
                         }
-                        
-                        this.render(); // Re-render to show read-only state
                     }
-                });
-
-                this.app.appendChild(form);
-                
-                // Only autofocus if not editing existing values (prevents jumpiness)
-                if (initialValues.length === 0) {
-                     setTimeout(() => form.querySelector('input').focus(), 500);
                 }
             },
-
-            renderReadonly(priorities) {
-                const div = document.createElement('div');
-                div.className = 'space-y-8 fade-in delay-100';
-                div.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-end mb-6">
-                            <h2 class="block text-xl text-stone-800 dark:text-stone-200 font-light">Today's Focus</h2>
-                            <button id="edit-btn" class="text-xs text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 underline">Edit</button>
-                        </div>
-                        ${priorities.map((p, i) => `
-                            <div class="flex items-baseline space-x-4 border-b border-transparent py-2">
-                                <span class="text-stone-400 font-mono text-sm">0${i+1}</span>
-                                <span class="text-lg text-stone-800 dark:text-stone-100">${this.escapeHtml(p)}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                
-                // Edit Functionality
-                div.querySelector('#edit-btn').addEventListener('click', () => {
-                   this.app.innerHTML = ''; // Clear
-                   this.renderHeader(new Date()); // Re-render header
-                   this.renderIntro(); // Re-render intro to maintain H1
-                   this.renderInputForm(priorities); // Re-render form with data
-                });
-
-                this.app.appendChild(div);
-            },
-
-            renderClosure() {
-                const div = document.createElement('div');
-                div.className = 'mt-12 pt-12 border-t border-stone-200 dark:border-stone-800 fade-in delay-300 text-center';
-                div.innerHTML = `
-                    <h3 class="text-lg text-stone-600 dark:text-stone-400 mb-6 font-light">Did you do what mattered?</h3>
-                    <div class="flex justify-center gap-3">
-                        <button data-val="yes" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-600 dark:text-stone-400 hover:border-stone-800 dark:hover:border-stone-200 text-sm">Yes</button>
-                        <button data-val="partial" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-600 dark:text-stone-400 hover:border-stone-800 dark:hover:border-stone-200 text-sm">Partially</button>
-                        <button data-val="no" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-600 dark:text-stone-400 hover:border-stone-800 dark:hover:border-stone-200 text-sm">Not really</button>
-                    </div>
-                `;
-
-                div.querySelectorAll('button').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const val = e.target.getAttribute('data-val');
-                        store.saveClosure(val);
-                        // Visual feedback before reload
-                        div.innerHTML = `<p class="text-stone-400 text-sm italic fade-in">Reflected.</p>`;
-                        setTimeout(() => this.render(), 1000);
-                    });
-                });
-
-                this.app.appendChild(div);
-            },
-
-            renderWeeklySummary(currentDate) {
-                const keywords = store.getWeeklyKeywords();
-                // If no keywords found (e.g. nonsense data), skip
-                if (keywords.length === 0) return;
-
-                const div = document.createElement('div');
-                div.className = 'mt-8 p-6 bg-stone-100 dark:bg-stone-900 rounded-lg text-center fade-in delay-200';
-                div.innerHTML = `
-                    <h3 class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">Weekly Glimpse</h3>
-                    <p class="text-stone-600 dark:text-stone-400 mb-2">This week, you focused on:</p>
-                    <div class="flex flex-wrap justify-center gap-2 mt-3">
-                        ${keywords.map(k => `<span class="px-3 py-1 bg-white dark:bg-stone-800 rounded-full text-sm text-stone-800 dark:text-stone-200 shadow-sm capitalize">${k}</span>`).join('')}
-                    </div>
-                    <button id="close-weekly" class="mt-6 text-xs text-stone-400 hover:text-stone-600 underline">Close</button>
-                `;
-                
-                // Mark summary as seen for this date
-                store.meta.lastWeeklySummary = currentDate;
-                store.save();
-
-                div.querySelector('#close-weekly').addEventListener('click', () => {
-                   this.render(); 
-                });
-
-                this.app.appendChild(div);
-            },
-
-            renderFooterMessage(text) {
-                const footer = document.createElement('div');
-                footer.className = 'mt-16 pb-8 text-center fade-in delay-300 flex flex-col items-center space-y-6';
-                
-                // Status Message
-                footer.innerHTML = `
-                    <div class="inline-flex items-center space-x-2 text-stone-500">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span class="text-sm font-medium">${text}</span>
-                    </div>
-                `;
-
-                // Controls Container
-                const controls = document.createElement('div');
-                controls.className = 'flex gap-6 text-xs text-stone-400';
-
-                // Reminder Toggle
-                if ('Notification' in window && Notification.permission !== 'denied' && Notification.permission !== 'granted') {
-                    const remindBtn = document.createElement('button');
-                    remindBtn.className = "hover:text-stone-600 dark:hover:text-stone-300 transition-colors underline decoration-stone-200 dark:decoration-stone-700";
-                    remindBtn.innerText = "Enable Reminder";
-                    remindBtn.onclick = () => {
-                         Notification.requestPermission().then(permission => {
-                             if (permission === 'granted') {
-                                 new Notification("DECIDE.", { body: "Reminders enabled." });
-                                 remindBtn.remove();
-                             }
-                         });
-                    };
-                    controls.appendChild(remindBtn);
-                }
-
-                // Export Data (Trust Feature)
-                const exportBtn = document.createElement('button');
-                exportBtn.className = "hover:text-stone-600 dark:hover:text-stone-300 transition-colors underline decoration-stone-200 dark:decoration-stone-700";
-                exportBtn.innerText = "Export Data";
-                exportBtn.onclick = () => {
-                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-                        data: store.data,
-                        meta: store.meta
-                    }, null, 2));
-                    const downloadAnchorNode = document.createElement('a');
-                    downloadAnchorNode.setAttribute("href", dataStr);
-                    downloadAnchorNode.setAttribute("download", "decide_backup_" + new Date().toISOString().split('T')[0] + ".json");
-                    document.body.appendChild(downloadAnchorNode); // required for firefox
-                    downloadAnchorNode.click();
-                    downloadAnchorNode.remove();
-                };
-                controls.appendChild(exportBtn);
-
-                footer.appendChild(controls);
-                this.app.appendChild(footer);
-            },
-
-            renderPrivacyModal() {
-                document.getElementById('privacy-modal').classList.add('modal-active');
-            },
-
-            escapeHtml(unsafe) {
-                return unsafe
-                     .replace(/&/g, "&amp;")
-                     .replace(/</g, "&lt;")
-                     .replace(/>/g, "&gt;")
-                     .replace(/"/g, "&quot;")
-                     .replace(/'/g, "&#039;");
+            scrollToTool() {
+                document.getElementById('date-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => this.dom.inputs[0].focus(), 800);
             }
         };
 
-        // --- Init ---
-        document.addEventListener('DOMContentLoaded', () => {
-            ui.initTheme(); // Initial theme setup
-            ui.render();
-        });
-
+        // Boot
+        document.addEventListener('DOMContentLoaded', () => ui.init());
     </script>
 </body>
 </html>
