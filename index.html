@@ -275,6 +275,7 @@
                 </p>
                 <p class="mt-4 mb-0 text-stone-700 dark:text-stone-300">
                     That’s it. No complicated systems, no endless backlogs, and definitely no guilt. Just clarity.
+                    <a href="pages/about.html" class="underline hover:text-stone-900 dark:hover:text-stone-100">Read our full story.</a>
                 </p>
             </section>
 
@@ -474,6 +475,7 @@
                     <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
                         <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">4. Why only three priorities?</h3>
                         <p class="text-sm leading-relaxed mb-2 text-stone-700 dark:text-stone-300"><strong class="text-stone-900 dark:text-stone-100">Because focus is limited.</strong> Research and real-world experience show that most people can only make meaningful progress on 2–3 important things per day. Limiting choices forces clarity and prevents overwhelm.</p>
+                        <p class="text-sm mt-2"><a href="pages/why-three.html" class="underline hover:text-stone-900 dark:hover:text-stone-100">Read why this limit is a feature, not a bug.</a></p>
                     </div>
 
                     <!-- Q5 -->
@@ -541,33 +543,19 @@
         </div>
         
         <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-500 dark:text-stone-400">
-            <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
-            <div class="mt-4 flex justify-center gap-4">
-                <button onclick="document.getElementById('privacy-modal').classList.add('modal-active')" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy Policy</button>
-                <button onclick="document.getElementById('privacy-modal').classList.add('modal-active')" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Terms of Service</button>
-            </div>
-            <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE.</p>
-        </footer>
+        <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
+        <div class="mt-4 flex justify-center gap-4">
+            <a href="pages/about.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">About</a>
+            <a href="pages/why-three.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Why Three?</a>
+            <a href="pages/why-three.html#faq" class="hover:text-stone-700 dark:hover:text-stone-300 underline">FAQ</a>
+            <a href="pages/privacy-policy-terms.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy & Terms</a>
+        </div>
+        <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE. <a href="https://toolblaster.com" class="hover:text-stone-700 dark:hover:text-stone-300 underline">toolblaster.com</a> All Rights Reserved.</p>
+    </footer>
     </article>
 
     <!-- Modals (Static HTML, Hidden via CSS) -->
-    <div id="privacy-modal" class="modal-backdrop">
-        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl">
-            <h2 class="text-xl font-bold mb-4 dark:text-white">Privacy Policy</h2>
-            <div class="prose prose-stone dark:prose-invert prose-sm text-stone-600 dark:text-stone-300">
-                <p><strong>Last Updated:</strong> <script>document.write(new Date().toLocaleDateString())</script></p>
-                <p>This application ("DECIDE") operates on a "Local-First" basis. Here is how we handle your data:</p>
-                <ul class="list-disc pl-5 my-2">
-                    <li><strong>Data Storage:</strong> All priorities, history, and streaks are stored exclusively on your device using Browser LocalStorage. We do not have servers, and we cannot see your data.</li>
-                    <li><strong>Backup & Stability:</strong> We automatically create a "Silent Backup" of your data on your device to prevent data loss in case of browser errors.</li>
-                    <li><strong>Cookies:</strong> This website may use cookies from third-party advertising partners (such as Google AdSense) to serve relevant ads. You can manage your cookie preferences through your browser settings.</li>
-                    <li><strong>External Links:</strong> We are not responsible for the content or privacy practices of other websites linked from this tool.</li>
-                </ul>
-                <p class="mt-2">By using DECIDE, you agree to this transparent, privacy-first approach.</p>
-            </div>
-            <button onclick="this.closest('.modal-backdrop').classList.remove('modal-active')" class="mt-6 w-full py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-lg font-bold">Close</button>
-        </div>
-    </div>
+    <!-- Privacy Modal code removed as it is now a separate page -->
 
     <div id="edit-modal" class="modal-backdrop">
         <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl text-center">
