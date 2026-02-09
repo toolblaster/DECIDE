@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>About DECIDE. | Daily Priority Tool</title>
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="96x96" href="../favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../favicon/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        stone: { 850: '#1c1917', 950: '#0c0a09' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-color: #FAFAF9;
+            --text-main: #292524;
+        }
+        :root.dark {
+            --bg-color: #0c0a09;
+            --text-main: #f5f5f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Modal Backdrop */
+        .modal-backdrop {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; padding: 1rem;
+        }
+        .modal-active { display: flex; }
+    </style>
+    
+    <!-- Theme Script -->
+    <script>
+        try {
+            if (localStorage.getItem('decide_theme_v1') === 'dark' || (!('decide_theme_v1' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    </script>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6 sm:p-12">
+
+    <header class="mb-12 text-center fade-in w-full max-w-2xl">
+        <a href="../" class="inline-flex flex-col items-center group decoration-0">
+            <div class="w-8 h-8 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
+                    <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
+                </svg>
+            </div>
+            <span class="text-sm font-semibold tracking-widest text-stone-600 dark:text-stone-400 uppercase">DECIDE</span>
+        </a>
+    </header>
+
+    <article class="w-full max-w-2xl mx-auto mb-16 px-4 sm:px-0 prose prose-stone dark:prose-invert fade-in">
+        
+        <h1 class="text-3xl md:text-4xl font-light text-center mb-12 text-stone-900 dark:text-stone-100">About DECIDE</h1>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">A simpler way to start your day</h2>
+            <p>DECIDE was built to solve one small but important problem:</p>
+            <p class="font-medium">Most people don’t struggle with doing work. They struggle with deciding what matters first.</p>
+            <p>Modern productivity tools often try to manage everything—tasks, schedules, goals, habits, streaks. Over time, this creates more noise, not more clarity.</p>
+            <p>DECIDE takes a different approach.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">What DECIDE does</h2>
+            <p>DECIDE helps you decide your top three priorities for today—nothing more, nothing less.</p>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>It doesn’t plan your week.</li>
+                <li>It doesn’t track performance.</li>
+                <li>It doesn’t push productivity systems.</li>
+            </ul>
+            <p class="mt-4">It simply asks one question:</p>
+            <blockquote class="border-l-4 border-stone-300 dark:border-stone-700 pl-4 italic my-4">
+                What matters today?
+            </blockquote>
+            <p>And then it gets out of the way.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Why only three priorities?</h2>
+            <p><strong>Focus is limited.</strong></p>
+            <p>Most days realistically allow progress on only a few meaningful things. By limiting choices to three, DECIDE reduces decision fatigue and helps you start your day with clarity instead of overwhelm.</p>
+            <p>This limit is intentional. It’s not a missing feature—it’s the feature.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">What DECIDE is — and isn’t</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold mb-2">DECIDE is:</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>A daily priority tool</li>
+                        <li>A decision-first habit</li>
+                        <li>A calm starting point for the day</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">DECIDE is not:</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>A planner</li>
+                        <li>A to-do list</li>
+                        <li>A task manager</li>
+                        <li>A productivity system</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-4">You can use DECIDE alongside other tools. It simply comes before them.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Designed to stay simple</h2>
+            <p>DECIDE is intentionally:</p>
+            <ul class="grid grid-cols-2 gap-2 mt-2 mb-4">
+                <li class="flex items-center gap-2">✓ Fast</li>
+                <li class="flex items-center gap-2">✓ Minimal</li>
+                <li class="flex items-center gap-2">✓ Offline-friendly</li>
+                <li class="flex items-center gap-2">✓ Free to use</li>
+                <li class="flex items-center gap-2">✓ Private by default</li>
+            </ul>
+            <p>There’s no sign-up, no pressure, and no performance scoring.</p>
+            <p class="font-medium">The goal isn’t to optimize you. The goal is to give you mental clarity.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Built to last</h2>
+            <p>DECIDE is designed as a build-and-forget tool.</p>
+            <p>That means:</p>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>No constant updates</li>
+                <li>No feature creep</li>
+                <li>No dependency on trends</li>
+                <li>No need for your attention</li>
+            </ul>
+            <p class="mt-4">If DECIDE still works years from now without change, it has done its job.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Part of Toolblaster</h2>
+            <p>DECIDE is part of Toolblaster, a collection of focused, single-purpose tools.</p>
+            <p>Each Toolblaster tool is built to:</p>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>Solve one problem well</li>
+                <li>Stay simple over time</li>
+                <li>Respect your attention</li>
+            </ul>
+            <p class="mt-4">DECIDE exists because clarity should be easy.</p>
+        </section>
+
+        <section class="text-center bg-white dark:bg-stone-900 p-8 rounded-lg border border-stone-200 dark:border-stone-800">
+            <h2 class="text-2xl font-bold mb-4 mt-0">Start with today</h2>
+            <p>You don’t need a new system.</p>
+            <p>You don’t need motivation.</p>
+            <p>You don’t need a perfect plan.</p>
+            <p class="font-medium text-lg my-4">You only need to decide today.</p>
+            <a href="../" class="inline-block px-8 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-bold hover:opacity-90 transition-opacity no-underline">
+                👉 Decide your day now.
+            </a>
+        </section>
+
+    </article>
+
+    <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-500 dark:text-stone-400 pb-8">
+        <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
+        <div class="mt-4 flex justify-center gap-4 flex-wrap">
+            <a href="../" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Home</a>
+            <a href="why-three.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Why Three?</a>
+            <a href="why-three.html#faq" class="hover:text-stone-700 dark:hover:text-stone-300 underline">FAQ</a>
+            <a href="privacy-policy-terms.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy & Terms</a>
+        </div>
+        <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE. <a href="https://toolblaster.com" class="hover:text-stone-700 dark:hover:text-stone-300 underline">toolblaster.com</a> All Rights Reserved.</p>
+    </footer>
+
+    <!-- Modals (Hidden) -->
+    <!-- Privacy Modal removed -->
+
+</body>
+</html>

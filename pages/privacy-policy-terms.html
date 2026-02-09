@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Primary SEO Tags -->
+    <title>Privacy Policy & Terms | DECIDE.</title>
+    <meta name="description" content="Privacy Policy and Terms of Service for DECIDE. We prioritize local-first data storage and user privacy.">
+    <meta name="author" content="ToolBlaster">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="96x96" href="../favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../favicon/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        stone: { 850: '#1c1917', 950: '#0c0a09' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-color: #FAFAF9;
+            --text-main: #292524;
+        }
+        :root.dark {
+            --bg-color: #0c0a09;
+            --text-main: #f5f5f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    
+    <!-- Theme Script -->
+    <script>
+        try {
+            if (localStorage.getItem('decide_theme_v1') === 'dark' || (!('decide_theme_v1' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    </script>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6 sm:p-12">
+
+    <header class="mb-12 text-center fade-in w-full max-w-2xl">
+        <a href="../" class="inline-flex flex-col items-center group decoration-0">
+            <div class="w-8 h-8 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
+                    <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
+                </svg>
+            </div>
+            <span class="text-sm font-semibold tracking-widest text-stone-600 dark:text-stone-400 uppercase">DECIDE</span>
+        </a>
+    </header>
+
+    <article class="w-full max-w-2xl mx-auto mb-16 px-4 sm:px-0 prose prose-stone dark:prose-invert fade-in">
+        
+        <h1 class="text-3xl font-light text-center mb-12 text-stone-900 dark:text-stone-100">Privacy & Terms</h1>
+
+        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm mb-8">
+            <h2 class="text-xl font-bold mb-4 mt-0">Privacy Policy</h2>
+            <p class="text-sm text-stone-500 dark:text-stone-400 mb-4">Last Updated: <script>document.write(new Date().toLocaleDateString())</script></p>
+            
+            <p>This application ("DECIDE") operates on a "Local-First" basis. To understand our philosophy behind this approach, you can read more on our <a href="about.html" class="underline hover:text-stone-900 dark:hover:text-stone-100">About page</a>. Here is exactly how we handle your data:</p>
+            
+            <h3 class="text-lg font-semibold mt-6 mb-2">1. Data Storage</h3>
+            <p>All priorities, history, streaks, and preferences are stored exclusively on your device using Browser LocalStorage. We do not have servers, databases, or cloud storage. We cannot see, access, or share your data because it never leaves your device.</p>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2">2. Backup & Stability</h3>
+            <p>We automatically create a "Silent Backup" of your data on your device's local storage. This is a safety measure to prevent data loss in case of browser errors or corruption. This backup also stays strictly on your device.</p>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2">3. Cookies & Analytics</h3>
+            <p>This website may use basic cookies or local storage to save your theme preference (Dark/Light mode). We may use third-party tools (like Google Analytics or AdSense) which may set their own cookies to understand aggregate traffic or serve relevant ads. You can manage these cookies via your browser settings.</p>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2">4. External Links</h3>
+            <p>We are not responsible for the content or privacy practices of other websites linked from this tool.</p>
+        </div>
+
+        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+            <h2 class="text-xl font-bold mb-4 mt-0">Terms of Service</h2>
+            
+            <h3 class="text-lg font-semibold mt-6 mb-2">1. Usage</h3>
+            <p>DECIDE is a free tool provided "as is". By using it, you agree to use it for personal productivity purposes. You are responsible for the data you enter.</p>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2">2. Liability</h3>
+            <p>ToolBlaster (the creator) is not liable for any data loss, productivity loss, or damages resulting from the use of this tool. While we engineer for stability, browser storage is not infinite or infallible.</p>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2">3. Updates</h3>
+            <p>We reserve the right to update these terms or the application at any time. However, our philosophy is "Build and Forget," meaning we aim to keep the tool stable and unchanged for the long term.</p>
+        </div>
+
+    </article>
+
+    <footer class="mt-8 pb-12 text-center text-xs text-stone-500 dark:text-stone-400">
+        <div class="mb-4 flex justify-center gap-4">
+            <a href="../" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Home</a>
+            <a href="about.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">About</a>
+            <a href="why-three.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Why Three?</a>
+        </div>
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> DECIDE. <a href="https://toolblaster.com" class="hover:text-stone-700 dark:hover:text-stone-300 underline">toolblaster.com</a> All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

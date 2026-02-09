@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Primary SEO Tags -->
+    <title>Why Three? | DECIDE.</title>
+    <meta name="description" content="DECIDE limits you to three priorities per day. Discover the psychology behind the limit and answers to common questions.">
+    <meta name="author" content="ToolBlaster">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://decide.toolblaster.com/pages/why-three.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://decide.toolblaster.com/pages/why-three.html">
+    <meta property="og:title" content="Why Three? | DECIDE.">
+    <meta property="og:description" content="DECIDE limits you to three priorities per day. Discover the psychology behind the limit and answers to common questions.">
+    <meta property="og:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:site_name" content="DECIDE.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://decide.toolblaster.com/pages/why-three.html">
+    <meta property="twitter:title" content="Why Three? | DECIDE.">
+    <meta property="twitter:description" content="DECIDE limits you to three priorities per day. Discover the psychology behind the limit and answers to common questions.">
+    <meta property="twitter:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+
+    <!-- JSON-LD Structured Data (Merged Article + FAQ) -->
+    <script type="application/ld+json">
+    [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Why Three? Because clarity needs limits",
+          "url": "https://decide.toolblaster.com/pages/why-three.html",
+          "description": "DECIDE limits you to three priorities per day by design. Discover the psychology behind why limits create clarity and reduce decision fatigue.",
+          "image": "https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png",
+          "author": {
+            "@type": "Organization",
+            "name": "ToolBlaster"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "ToolBlaster",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://decide.toolblaster.com/pages/why-three.html"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is DECIDE?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "DECIDE is a daily priority tool that helps you decide your top three priorities for today in under 60 seconds."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is DECIDE a daily planner or a to-do list?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. DECIDE is not a traditional daily planner or task manager. It is designed purely for decision clarity."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why only three priorities?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Because focus is limited. Limiting choices forces clarity and prevents overwhelm."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to create an account?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. DECIDE does not require sign-up. Your data is stored locally."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does DECIDE work offline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. DECIDE is a local-first tool and works offline."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What happens to yesterday’s priorities?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yesterday’s priorities remain saved and read-only to provide context, but are not judged."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is my data private?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. DECIDE does not upload your data to servers. Everything stays on your device."
+              }
+            }
+          ]
+        }
+    ]
+    </script>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="96x96" href="../favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../favicon/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        stone: { 850: '#1c1917', 950: '#0c0a09' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-color: #FAFAF9;
+            --text-main: #292524;
+        }
+        :root.dark {
+            --bg-color: #0c0a09;
+            --text-main: #f5f5f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Modal Backdrop */
+        .modal-backdrop {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; padding: 1rem;
+        }
+        .modal-active { display: flex; }
+    </style>
+    
+    <!-- Theme Script -->
+    <script>
+        try {
+            if (localStorage.getItem('decide_theme_v1') === 'dark' || (!('decide_theme_v1' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    </script>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6 sm:p-12">
+
+    <header class="mb-12 text-center fade-in w-full max-w-2xl">
+        <a href="../" class="inline-flex flex-col items-center group decoration-0">
+            <div class="w-8 h-8 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
+                    <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
+                </svg>
+            </div>
+            <span class="text-sm font-semibold tracking-widest text-stone-600 dark:text-stone-400 uppercase">DECIDE</span>
+        </a>
+    </header>
+
+    <article class="w-full max-w-2xl mx-auto mb-16 px-4 sm:px-0 prose prose-stone dark:prose-invert fade-in">
+        
+        <h1 class="text-3xl md:text-4xl font-light text-center mb-12 text-stone-900 dark:text-stone-100">Why Three?</h1>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Because clarity needs limits</h2>
+            <p>DECIDE limits you to three priorities per day by design.</p>
+            <p>This isn’t an arbitrary rule. It’s the foundation of how DECIDE works.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">The real problem isn’t doing work</h2>
+            <p>Most people don’t fail because they’re lazy. They fail because they’re overwhelmed.</p>
+            <p>Traditional planners and to-do lists encourage you to:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>write everything down</li>
+                <li>manage endless tasks</li>
+                <li>constantly reprioritize</li>
+            </ul>
+            <p class="mt-4">That creates decision fatigue before the day even begins. DECIDE exists to remove that.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Why not unlimited priorities?</h2>
+            <p>Unlimited lists feel productive, but they usually:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>grow endlessly</li>
+                <li>hide what truly matters</li>
+                <li>create guilt for unfinished tasks</li>
+                <li>get abandoned over time</li>
+            </ul>
+            <p class="mt-4 font-medium">When everything is important, nothing is.</p>
+            <p>Unlimited choice is not freedom — it’s friction.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Why not just one priority?</h2>
+            <p>One priority is often unrealistic. Most real days include:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>one main focus</li>
+                <li>one supporting responsibility</li>
+                <li>one personal or maintenance task</li>
+            </ul>
+            <p class="mt-4">Three allows balance without overload.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Why three works</h2>
+            <p>Three priorities:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>force you to choose</li>
+                <li>fit within a normal day</li>
+                <li>reduce mental clutter</li>
+                <li>are easy to remember</li>
+                <li>feel achievable</li>
+            </ul>
+            <p class="mt-4">Three is enough to make progress and small enough to stay focused.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">The psychology behind the limit</h2>
+            <p>When choices are limited:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>decisions happen faster</li>
+                <li>confidence increases</li>
+                <li>follow-through improves</li>
+            </ul>
+            <p class="mt-4">By asking you to choose only three, DECIDE shifts your thinking from:</p>
+            <p class="italic text-stone-600 dark:text-stone-400">“What should I work on next?”</p>
+            <p>to:</p>
+            <p class="italic text-stone-900 dark:text-stone-100 font-medium">“I already decided.”</p>
+            <p class="mt-4">That mental relief is the real product.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">What if I have more to do?</h2>
+            <p>That’s normal. DECIDE doesn’t deny that life is busy.</p>
+            <p>It simply asks:</p>
+            <blockquote class="border-l-4 border-stone-300 dark:border-stone-700 pl-4 italic my-4 font-medium text-lg">
+                Out of everything, what matters most today?
+            </blockquote>
+            <p>You can still:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>use a task manager</li>
+                <li>keep long lists</li>
+                <li>plan your week elsewhere</li>
+            </ul>
+            <p class="mt-4">DECIDE just comes before those tools. It helps you choose where to start.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">Why DECIDE resets every day</h2>
+            <p>DECIDE resets daily because:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>priorities change</li>
+                <li>yesterday doesn’t define today</li>
+                <li>planning too far ahead increases anxiety</li>
+            </ul>
+            <p class="mt-4">DECIDE is not about controlling your future. It’s about showing up clearly today.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">This is a feature, not a limitation</h2>
+            <p>DECIDE could easily allow:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>five priorities</li>
+                <li>ten priorities</li>
+                <li>unlimited tasks</li>
+            </ul>
+            <p class="mt-4">It chooses not to — because that would break the habit.</p>
+            <p>The three-priority limit protects:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>focus</li>
+                <li>calm</li>
+                <li>consistency</li>
+                <li>daily return</li>
+            </ul>
+            <p class="mt-4 font-medium">If DECIDE ever removes this limit, it stops being DECIDE.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-semibold mb-4">A simple test</h2>
+            <p>If you’re unsure what to put in the three slots, ask yourself:</p>
+            <p class="italic text-stone-700 dark:text-stone-300 my-4 border-l-2 border-stone-300 dark:border-stone-700 pl-4">
+                If I only completed these three things today, would the day still feel meaningful?
+            </p>
+            <p>If the answer is yes, you chose well.</p>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="mb-16 pt-12 border-t border-stone-200 dark:border-stone-800">
+            <h2 class="text-2xl font-semibold mb-8 text-stone-900 dark:text-stone-100">Common Questions</h2>
+            
+            <div class="space-y-6">
+                <!-- Q1 -->
+                <div class="p-6 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+                    <h3 class="font-bold text-lg text-stone-900 dark:text-stone-100 mb-2 mt-0">What is DECIDE?</h3>
+                    <p class="text-stone-700 dark:text-stone-300 mb-0">DECIDE is a daily priority tool that helps you decide your top three priorities for today in under 60 seconds.</p>
+                </div>
+                
+                <!-- Q2 -->
+                <div class="p-6 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+                    <h3 class="font-bold text-lg text-stone-900 dark:text-stone-100 mb-2 mt-0">Is DECIDE a daily planner or a to-do list?</h3>
+                    <p class="text-stone-700 dark:text-stone-300 mb-0"><strong class="text-stone-900 dark:text-stone-100">No.</strong> DECIDE is not a traditional planner. It does not support unlimited tasks or calendars. It is designed purely for decision clarity.</p>
+                </div>
+
+                <!-- Q3 -->
+                <div class="p-6 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+                    <h3 class="font-bold text-lg text-stone-900 dark:text-stone-100 mb-2 mt-0">Do I need to create an account?</h3>
+                    <p class="text-stone-700 dark:text-stone-300 mb-0"><strong class="text-stone-900 dark:text-stone-100">No.</strong> DECIDE does not require sign-up or login. Your data is stored locally on your device.</p>
+                </div>
+
+                <!-- Q4 -->
+                <div class="p-6 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+                    <h3 class="font-bold text-lg text-stone-900 dark:text-stone-100 mb-2 mt-0">Does DECIDE work offline?</h3>
+                    <p class="text-stone-700 dark:text-stone-300 mb-0"><strong class="text-stone-900 dark:text-stone-100">Yes.</strong> DECIDE is a local-first tool and works entirely offline once loaded.</p>
+                </div>
+
+                <!-- Q5 -->
+                <div class="p-6 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
+                    <h3 class="font-bold text-lg text-stone-900 dark:text-stone-100 mb-2 mt-0">Is my data private?</h3>
+                    <p class="text-stone-700 dark:text-stone-300 mb-0"><strong class="text-stone-900 dark:text-stone-100">Yes.</strong> DECIDE does not upload your data to servers. Everything stays on your device.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center bg-white dark:bg-stone-900 p-8 rounded-lg border border-stone-200 dark:border-stone-800">
+            <h2 class="text-2xl font-bold mb-4 mt-0">Start with three</h2>
+            <p>You don’t need to plan everything.</p>
+            <p>You don’t need to optimize your life.</p>
+            <p class="font-medium text-lg my-4">You only need to decide: What matters today?</p>
+            <a href="../" class="inline-block px-8 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-bold hover:opacity-90 transition-opacity no-underline">
+                👉 Decide your day now.
+            </a>
+        </section>
+
+    </article>
+
+    <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-500 dark:text-stone-400 pb-8">
+        <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
+        <div class="mt-4 flex justify-center gap-4 flex-wrap">
+            <a href="../" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Home</a>
+            <a href="about.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">About</a>
+            <a href="#faq" class="hover:text-stone-700 dark:hover:text-stone-300 underline">FAQ</a>
+            <a href="privacy-policy-terms.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy & Terms</a>
+        </div>
+        <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE. <a href="https://toolblaster.com" class="hover:text-stone-700 dark:hover:text-stone-300 underline">toolblaster.com</a> All Rights Reserved.</p>
+    </footer>
+
+    <!-- Modals (Hidden) -->
+    <!-- Privacy Modal removed -->
+
+</body>
+</html>
