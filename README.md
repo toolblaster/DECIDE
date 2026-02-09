@@ -1,10 +1,34 @@
-DECIDE. | Daily Priority Tool
+DECIDE. | Daily Priority Tool (Stable Artifact)
 
 Decide your day in 60 seconds.
 
 DECIDE is a minimalist, local-first web application designed to help users focus on what truly matters. Instead of managing endless to-do lists, DECIDE forces clarity by limiting users to exactly three priorities per day.
 
+This version (V1.1) is engineered as a "Build-and-Forget" artifact. It is designed to run correctly for years without developer maintenance, server updates, or dependency management.
+
 🔗 Live Demo: decide.toolblaster.com
+
+🛡️ The Stability Engine (New in V1.1)
+
+This codebase has been hardened to function indefinitely on static hosting.
+
+The Midnight Switch (Visibility API):
+
+The app listens for when the user unlocks their phone or switches tabs.
+
+If the date has changed while the app was in the background, it automatically refreshes the UI to a fresh day. No manual reload required.
+
+Silent Data Backup (Self-Healing):
+
+Every save operation writes to both a Main key and a Backup key in LocalStorage.
+
+If the browser corrupts the main data (common during crashes or aggressive cache clearing), the app silently restores from the backup on the next launch. The user never sees a crash.
+
+Pinned Dependencies:
+
+Tailwind CSS is locked to version 3.4.1.
+
+The layout is guaranteed not to break regardless of future library updates.
 
 🧠 Philosophy
 
@@ -36,9 +60,7 @@ Yesterday Recall: If priorities were set yesterday, they are shown gently in the
 
 Evening Closure: Opening the app after 6 PM triggers a reflection question: "Did you do what mattered?"
 
-Hidden Streaks: Tracks consistency internally to unlock features (see V3).
-
-Weekly Glimpse: Every 7 days, a text-based summary of keywords appears.
+Hidden Streaks: Tracks consistency internally to unlock features.
 
 V3: Advanced & Monetization (Gated)
 
@@ -46,57 +68,49 @@ Intentional Edit: "Edit priorities" button with a confirmation modal ("gentle fr
 
 Dark Mode: Manual toggle (Sun/Moon) with persistence.
 
-PWA Support: Installable on mobile home screens (iOS/Android).
-
-Data Export & Paywall (Disabled by Default):
-
-Code for PDF/CSV export and the "Calm Paywall" is included but disabled via the ENABLE_V3 flag in the source code.
-
-Use the cheatsheet below to test or enable it for launch.
+Export & Paywall (Disabled by Default): Code for PDF/CSV export exists but is disabled via the ENABLE_V3 flag.
 
 💾 Data Model (LocalStorage)
 
-Crucial for understanding app state logic.
+All data is stored locally. The app manages two sets of keys for redundancy.
 
-Key: decide_data_v1 (Stores daily entries)
+Primary Data: decide_data_v1
+Silent Backup: decide_data_v1_bak
 
 {
   "YYYY-MM-DD": {
     "priorities": ["Priority 1", "Priority 2", "Priority 3"],
-    "decidedAt": 1707436800000, // Unix Timestamp
+    "decidedAt": 1707436800000,
     "closure": "yes" // Options: "yes", "partial", "no", null
   }
 }
 
 
-Key: decide_meta_v1 (Stores app metadata & habits)
+Metadata: decide_meta_v1
+Silent Backup: decide_meta_v1_bak
 
 {
-  "streak": 5, // Consecutive days count
+  "streak": 5,
   "lastOpened": "YYYY-MM-DD",
-  "lastWeeklySummary": "YYYY-MM-DD", // Date summary was last shown
-  "isPremium": false // Boolean flag for V3 export features
+  "isPremium": false
 }
 
 
-Key: decide_theme_v1 (UI Preference)
-
-"light" | "dark"
-
+Theme Preference: decide_theme_v1 ("light" | "dark")
 
 🛠 Tech Stack
 
 Architecture: Single-File HTML (HTML-First + JS Hydration).
 
-Styling: Tailwind CSS (via CDN).
+Styling: Tailwind CSS (CDN pinned to 3.4.1).
 
-Storage: Browser LocalStorage (No Backend).
+Storage: Browser LocalStorage (Dual-Write Architecture).
 
 PDF Generation: jsPDF + jspdf-autotable (via CDN).
 
 Icons: Inline SVG.
 
-Note on Architecture: The application logic is embedded directly within index.html to ensure zero build steps and instant deployment.
+Note: The application logic is embedded directly within index.html to ensure zero build steps and instant deployment.
 
 🚀 How to Deploy
 
@@ -114,15 +128,13 @@ Vercel
 
 Shared Hosting (cPanel/FTP)
 
-Monetization (Optional):
+Amazon S3 bucket
 
-Search index.html for ENABLE_V3 and set it to true to enable the Paywall/Export logic.
-
-Search for the .ad-container class logic if you wish to re-enable Adsense slots (currently removed for clean launch).
+It requires no database and no server maintenance.
 
 🧪 Developer Cheatsheets
 
-Use these snippets in the browser console (F12) to test hidden V2/V3 features instantly.
+Use these snippets in the browser console (F12) to test hidden features.
 
 1. Force "Evening Closure" Mode (Reflection)
 
@@ -135,7 +147,6 @@ ui.render();
 
 
 2. Unlock Export Button (Test V3)
-First, ensure const ENABLE_V3 = true; is set in the source code, or paste this:
 
 // Force enable V3 logic temporarily
 const ENABLE_V3 = true;
@@ -146,7 +157,7 @@ for(let i=0; i<7; i++) {
     let d = new Date(); d.setDate(d.getDate()-i);
     store.data[d.toISOString().split('T')[0]] = { priorities: ["Test", "Data", "Here"] };
 }
-store.save();
+store.save(); // This triggers backup creation too
 ui.render();
 
 
