@@ -1,5 +1,5 @@
-const DB_KEY='decide_data_v1', META_KEY='decide_meta_v1', THEME_KEY='decide_theme_v1';
-const CURRENT_VERSION = 3; // Upgraded schema version to support 'completed' state tracking
+const DB_KEY='decide_data_v1', META_KEY='decide_meta_v1', THEME_KEY='decide_theme_v1', DRAFT_KEY='decide_drafts_v1';
+const CURRENT_VERSION = 3; 
 const ENABLE_V3 = true; 
 
 const store = {
@@ -47,14 +47,12 @@ const store = {
     migrateData() {
         if (!this.meta.version) this.meta.version = 1;
         
-        // V2 Migration
         if (this.meta.version < 2) {
             if (this.meta.v3Enabled === undefined) this.meta.v3Enabled = false;
             if (!this.meta.events) this.meta.events = { yesterday: false, closure: false, weekly: false };
             this.meta.version = 2;
         }
 
-        // V3 Migration: Initialize 'completed' state arrays for mid-day taps
         if (this.meta.version < 3) {
             Object.keys(this.data).forEach(date => {
                 if (!this.data[date].completed) {
@@ -73,6 +71,18 @@ const store = {
         } catch (e) {
             console.error('Storage Save Failed:', e);
         }
+    },
+
+    // BULLETPROOF DRAFTS: Real-time background saving of unsubmitted text
+    getDraft() {
+        try { return JSON.parse(localStorage.getItem(DRAFT_KEY)) || []; }
+        catch { return []; }
+    },
+    saveDraft(draftArray) {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draftArray));
+    },
+    clearDraft() {
+        localStorage.removeItem(DRAFT_KEY);
     },
     
     getLocalYMD(d=new Date()) { 
@@ -160,6 +170,7 @@ const ui = {
     cacheDOM() {
         this.dom = {
             dateDisplay: document.getElementById('current-date-display'),
+            greetingLabel: document.getElementById('greeting-label'),
             form: document.getElementById('priority-form'),
             inputs: [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')],
             mainBtn: document.getElementById('main-action-btn'),
@@ -192,13 +203,20 @@ const ui = {
         this.dom.themeBtn?.addEventListener('click', () => this.toggleTheme());
         this.dom.form?.addEventListener('submit', (e) => this.handleSubmit(e));
         
-        // Modal & Copy Bindings
-        this.dom.editBtn?.addEventListener('click', () => this.enterEditMode()); // Standard edit jumps to task 1
+        // Draft Autosave Listeners
+        this.dom.inputs.forEach(input => {
+            input?.addEventListener('input', () => {
+                if (!this.isEditing) {
+                    store.saveDraft(this.dom.inputs.map(i => i?.value || ''));
+                }
+            });
+        });
+
+        this.dom.editBtn?.addEventListener('click', () => this.enterEditMode()); 
         this.dom.copyBtn?.addEventListener('click', () => this.copyToClipboard());
         this.dom.cancelEdit?.addEventListener('click', () => this.dom.editModal?.classList.remove('modal-active'));
         this.dom.confirmEdit?.addEventListener('click', () => this.enterEditMode());
         
-        // Closure Button Bindings (Includes the Confetti Reward)
         document.querySelectorAll('.closure-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const val = e.target.getAttribute('data-val');
@@ -211,18 +229,21 @@ const ui = {
         });
         
         this.dom.closeExport?.addEventListener('click', () => this.dom.exportModal?.classList.remove('modal-active'));
-        
-        // Export / Portability Buttons
         document.getElementById('export-csv')?.addEventListener('click', () => this.exportToCSV());
         document.getElementById('export-pdf')?.addEventListener('click', () => this.exportToPDF('all'));
         this.dom.exportJsonBtn?.addEventListener('click', () => this.exportToJSON());
         this.dom.importJsonInput?.addEventListener('change', (e) => this.importFromJSON(e));
 
-        // Invisible Power User Shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const activeModals = document.querySelectorAll('.modal-active');
-                if (activeModals.length > 0) activeModals.forEach(modal => modal.classList.remove('modal-active'));
+                if (activeModals.length > 0) {
+                    activeModals.forEach(modal => modal.classList.remove('modal-active'));
+                } else if (this.isEditing) {
+                    // Cancel Edit Mode and return to the Read-Only list
+                    this.isEditing = false;
+                    this.render();
+                }
             }
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 if (this.dom.form && !this.dom.form.classList.contains('hidden-app')) {
@@ -233,11 +254,10 @@ const ui = {
         });
     },
 
-    // CUSTOM CLOSURE REWARD: Zero-Dependency DOM Confetti Burst
     fireRewardConfetti() {
         const duration = 2500;
         const end = Date.now() + duration;
-        const colors = ['#e7e5e4', '#a8a29e', '#57534e']; // DECIDE Stone Color Palette
+        const colors = ['#e7e5e4', '#a8a29e', '#57534e']; 
 
         const frame = () => {
             const confetti = document.createElement('div');
@@ -263,20 +283,19 @@ const ui = {
             animation.onfinish = () => confetti.remove();
             if (Date.now() < end) requestAnimationFrame(frame);
         };
-        frame(); // Ignite
+        frame(); 
     },
 
     copyToClipboard() {
         const { entry } = store.getToday();
         if (!entry || !entry.priorities) return;
         
-        // Add checkmarks if the task is completed
         const formattedTasks = entry.priorities.map((p, i) => {
             const isDone = entry.completed && entry.completed[i];
-            return `${i+1}. ${isDone ? 'âœ“ ' : ''}${p}`;
+            return `${i+1}. ${isDone ? '✓ ' : ''}${p}`;
         }).join('\n');
 
-        const textToCopy = `ðŸŽ¯ My top 3 priorities for today:\n${formattedTasks}\n\nMade with DECIDE: https://decide.toolblaster.com`;
+        const textToCopy = `🎯 My top 3 priorities for today:\n${formattedTasks}\n\nMade with DECIDE: https://decide.toolblaster.com`;
         
         const textArea = document.createElement("textarea");
         textArea.value = textToCopy;
@@ -306,6 +325,11 @@ const ui = {
         if (emptyInput) {
             emptyInput.value = taskText;
             emptyInput.focus();
+            
+            // Instantly save this new value to drafts as well
+            if (!this.isEditing) {
+                 store.saveDraft(this.dom.inputs.map(i => i?.value || ''));
+            }
         } else {
             alert("All three priorities are already filled for today.");
         }
@@ -412,12 +436,11 @@ const ui = {
 
         const tableData = dates.map(date => {
             const entry = store.data[date];
-            // Render checkmarks for completed tasks in the PDF
             const pList = entry.priorities.map((p, i) => {
                 const isDone = entry.completed && entry.completed[i];
-                return `${i+1}. ${isDone ? 'âœ“ ' : ''}${p}`;
+                return `${i+1}. ${isDone ? '✓ ' : ''}${p}`;
             }).join('\n');
-            const closureMap = { 'yes': 'âœ“ Yes', 'partial': '~ Partial', 'no': 'âœ— No', 'null': '-' };
+            const closureMap = { 'yes': '✓ Yes', 'partial': '~ Partial', 'no': '✗ No', 'null': '-' };
             return [date, pList, closureMap[String(entry.closure)] || '-'];
         });
 
@@ -450,12 +473,12 @@ const ui = {
         const p = this.dom.inputs.map(i => i?.value?.trim()).filter(v => v);
         if (p.length === 3) {
             store.saveDay(p);
-            this.render(this.isEditing ? "âœ“ Priorities updated." : null);
+            store.clearDraft(); // Wipe drafts upon successful save
+            this.render(this.isEditing ? "✓ Priorities updated." : null);
             this.isEditing = false;
         }
     },
     
-    // Quick Edit Logic: Accepts an index to focus a specific input field
     enterEditMode(focusIndex = 0) {
         this.dom.editModal?.classList.remove('modal-active');
         this.isEditing = true;
@@ -471,11 +494,9 @@ const ui = {
         if (this.dom.mainBtn) this.dom.mainBtn.innerHTML = "Save changes";
         this.dom.trustBadges?.classList.add('hidden-app'); 
         
-        // Wait a tiny fraction of a second for UI to swap, then focus the specific task input
         setTimeout(() => {
             if (this.dom.inputs[focusIndex]) {
                 this.dom.inputs[focusIndex].focus();
-                // Push cursor to the end of the input string
                 const length = this.dom.inputs[focusIndex].value.length;
                 this.dom.inputs[focusIndex].setSelectionRange(length, length);
             }
@@ -494,6 +515,16 @@ const ui = {
         }
         this.updateThemeIcon(document.documentElement.classList.contains('dark'));
 
+        // CONTEXTUAL AWARENESS: Dynamic Greeting
+        if (this.dom.greetingLabel && !this.isEditing) {
+            const h = now.getHours();
+            let greet = "What matters today?";
+            if (h >= 5 && h < 12) greet = "Good morning. What matters today?";
+            else if (h >= 12 && h < 17) greet = "Good afternoon. What matters today?";
+            else if (h >= 17 || h < 5) greet = "Good evening. What matters today?";
+            this.dom.greetingLabel.textContent = greet;
+        }
+
         if (!entry || this.isEditing) {
             this.dom.form?.classList.remove('hidden-app');
             this.dom.readonlyView?.classList.add('hidden-app');
@@ -506,7 +537,6 @@ const ui = {
                         const isDone = yesterday.entry.completed && yesterday.entry.completed[i];
                         const escapedTask = p.replace(/"/g, '&quot;');
                         
-                        // Don't show carry-over button if the task was already completed yesterday
                         const carryOverBtn = isDone ? '' : `
                             <button type="button" title="Carry over to today" class="carry-over-btn flex-shrink-0 text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors p-1 rounded hover:bg-stone-100 dark:hover:bg-stone-800" data-task="${escapedTask}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -536,9 +566,11 @@ const ui = {
             }
             
             if (!this.isEditing) {
+                const drafts = store.getDraft();
                 if (this.dom.mainBtn) this.dom.mainBtn.innerHTML = 'Decide Today <span>&rarr;</span>';
                 this.dom.trustBadges?.classList.remove('hidden-app');
-                this.dom.inputs.forEach(i => { if(i) i.value = ''; }); 
+                // Restore drafts into inputs
+                this.dom.inputs.forEach((i, idx) => { if(i) i.value = drafts[idx] || ''; }); 
             }
 
         } else {
@@ -558,24 +590,24 @@ const ui = {
                     `;
                 }).join('');
 
-                // Bind Interactive Tap (Cross off) and Double Tap (Edit)
                 document.querySelectorAll('.priority-item').forEach(item => {
                     let clickTimer = null;
                     const index = parseInt(item.getAttribute('data-index'), 10);
                     
                     item.addEventListener('click', (e) => {
-                        // Prevent conflict with double click
                         if (e.detail === 1) {
                             clickTimer = setTimeout(() => {
+                                // TACTILE SATISFACTION: Subtle mobile vibration
+                                if (navigator.vibrate) navigator.vibrate(40);
                                 store.toggleTaskCompletion(index);
                                 this.render();
-                            }, 250); // 250ms wait to see if it becomes a double-click
+                            }, 250); 
                         }
                     });
                     
                     item.addEventListener('dblclick', (e) => {
-                        clearTimeout(clickTimer); // Cancel the strikethrough logic
-                        this.enterEditMode(index); // Jump straight to edit mode, focused on this input
+                        clearTimeout(clickTimer); 
+                        this.enterEditMode(index); 
                     });
                 });
             }
