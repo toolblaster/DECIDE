@@ -2,31 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Updated viewport for accessibility: removed user-scalable=no and maximum-scale -->
+    <!-- Mobile-first viewport optimization -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
-    <!-- Primary Meta Tags -->
-    <title>DECIDE. | Daily Priority Tool</title>
-    <meta name="title" content="DECIDE. | Daily Priority Tool">
-    <meta name="description" content="Decide your top priorities for today — nothing more, nothing less. A minimalist daily planner to build focus and habit.">
+    <!-- Primary Meta Tags (Strict limits: Title < 60 chars, Desc < 160 chars) -->
+    <title>DECIDE. | Daily Priority Tool for Focus</title>
+    <meta name="title" content="DECIDE. | Daily Priority Tool for Focus">
+    <meta name="description" content="Decide your top 3 priorities today. A minimalist, local-first daily planner designed to eliminate overwhelm and build consistent focus. Works offline.">
+    <meta name="keywords" content="daily priority tool, focus app, minimalist daily planner, top 3 priorities, local-first planner, adhd planner, daily focus, offline productivity tool">
     <meta name="author" content="ToolBlaster">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://decide.toolblaster.com/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DECIDE.">
     <meta property="og:url" content="https://decide.toolblaster.com/">
-    <meta property="og:title" content="DECIDE. | Daily Priority Tool">
-    <meta property="og:description" content="Decide your top priorities for today — nothing more, nothing less. A minimalist daily planner to build focus and habit.">
+    <meta property="og:title" content="DECIDE. | Daily Priority Tool for Focus">
+    <meta property="og:description" content="Decide your top 3 priorities today. A minimalist, local-first daily planner designed to eliminate overwhelm and build consistent focus.">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="DECIDE app logo showing a minimalist focus circle">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://decide.toolblaster.com/">
-    <meta property="twitter:title" content="DECIDE. | Daily Priority Tool">
-    <meta property="twitter:description" content="Decide your top priorities for today — nothing more, nothing less. A minimalist daily planner to build focus and habit.">
-    <meta property="twitter:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://decide.toolblaster.com/">
+    <meta name="twitter:title" content="DECIDE. | Daily Priority Tool">
+    <meta name="twitter:description" content="Decide your top 3 priorities today. A minimalist, local-first daily planner to build consistent focus.">
+    <meta name="twitter:image" content="https://decide.toolblaster.com/favicon/web-app-manifest-512x512.png">
+    <meta name="twitter:image:alt" content="DECIDE app logo showing a minimalist focus circle">
+    <meta name="twitter:site" content="@ToolBlaster">
+    <meta name="twitter:creator" content="@ToolBlaster">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -38,6 +46,8 @@
       "description": "A minimalist daily priority tool to help you decide what truly matters today. No planners, no to-do lists, no overwhelm.",
       "applicationCategory": "ProductivityApplication",
       "operatingSystem": "Any",
+      "isAccessibleForFree": true,
+      "keywords": "daily planner, priority tool, focus app, to-do list alternative",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -45,15 +55,17 @@
       },
       "featureList": "Daily priority setting, Local-first storage, Dark mode, Privacy-focused, Offline capable",
       "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
-      "softwareVersion": "1.0",
+      "softwareVersion": "1.1",
       "author": {
         "@type": "Organization",
-        "name": "ToolBlaster"
+        "name": "ToolBlaster",
+        "url": "https://toolblaster.com"
       }
     }
     </script>
 
-    <meta name="theme-color" content="#FAFAF9">
+    <meta name="theme-color" content="#FAFAF9" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0c0a09" media="(prefers-color-scheme: dark)">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="DECIDE">
@@ -89,13 +101,13 @@
             --bg-color: #FAFAF9;
             --text-main: #292524;
             --accent: #1C1917;
-            --input-border: #d6d3d1; /* Darkened from E7E5E4 for 3:1 contrast */
+            --input-border: #d6d3d1;
         }
         :root.dark {
             --bg-color: #0c0a09;
             --text-main: #f5f5f4;
             --accent: #e7e5e4;
-            --input-border: #292524;
+            --input-border: #44403c; /* WCAG AA Contrast compliance fix */
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -119,14 +131,14 @@
         /* Modal Backdrop */
         .modal-backdrop {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; padding: 1rem;
+            background: rgba(0,0,0,0.6); z-index: 50; align-items: center; justify-content: center; padding: 1rem;
+            backdrop-filter: blur(2px);
         }
         .modal-active { display: flex; }
     </style>
     
     <!-- Inline Theme Script (Anti-FOUC) -->
     <script>
-        // Version-tolerant theme check
         try {
             if (localStorage.getItem('decide_theme_v1') === 'dark' || (!('decide_theme_v1' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
@@ -138,128 +150,122 @@
         }
     </script>
 </head>
-<body class="min-h-screen flex flex-col items-center p-6 sm:p-12">
+<body class="min-h-screen flex flex-col items-center p-6 sm:p-12 overflow-x-hidden">
 
-    <!-- Main App Container (HTML-First: Fully Visible on Load) -->
+    <!-- Main App Container -->
     <main id="app" class="w-full max-w-lg mx-auto mt-8 relative z-10">
 
         <!-- 1. Header: Date & Theme -->
         <header id="date-header" class="mb-8 text-center fade-in relative scroll-mt-12">
             <div class="flex justify-between items-center mb-2 px-1 relative">
                 <div class="w-8 h-8 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-stone-800 dark:text-stone-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
                         <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
                     </svg>
                 </div>
-                <span class="text-sm font-semibold tracking-widest text-stone-600 dark:text-stone-400 uppercase">DECIDE</span>
-                <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200 transition-colors" aria-label="Toggle Dark Mode">
-                    <!-- Default SVG (Sun/Moon logic handled by JS, default circle) -->
+                <span class="text-sm font-semibold tracking-widest text-stone-700 dark:text-stone-300 uppercase">DECIDE</span>
+                <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors" aria-label="Toggle Dark Mode">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle></svg>
                 </button>
             </div>
-            <!-- Date Placeholder (Updated by JS) -->
-            <div id="current-date-display" class="text-3xl font-normal text-stone-900 dark:text-stone-100">Today</div>
+            <!-- Date Placeholder -->
+            <div id="current-date-display" class="text-3xl font-medium text-stone-900 dark:text-stone-50" aria-live="polite">Today</div>
         </header>
 
-        <!-- 2. Intro Block (H1) -->
+        <!-- 2. Intro Block -->
         <div id="intro-block" class="text-center mb-8 fade-in">
-            <h1 class="text-2xl md:text-3xl text-stone-900 dark:text-stone-100 font-medium mb-3">
+            <h1 class="text-2xl md:text-3xl text-stone-900 dark:text-stone-50 font-semibold mb-3">
                 Decide your day in 60 seconds.
             </h1>
-            <!-- Improved contrast: text-stone-500 to text-stone-600 -->
-            <p class="text-stone-600 dark:text-stone-400 text-sm leading-relaxed max-w-sm mx-auto">
+            <p class="text-stone-700 dark:text-stone-300 text-sm leading-relaxed max-w-sm mx-auto">
                 A simple daily priority tool to help you decide what truly matters today — without planners, to-do lists, or overwhelm.
             </p>
         </div>
 
-        <!-- 3. Yesterday Recall (Hidden by default, shown if data exists) -->
+        <!-- 3. Yesterday Recall (with Smart Carry-Over) -->
         <div id="yesterday-section" class="hidden-app mb-10 p-6 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg fade-in shadow-sm">
-            <h2 class="text-sm text-stone-600 dark:text-stone-400 mb-4 font-medium">Yesterday, you focused on:</h2>
-            <ul id="yesterday-list" class="space-y-2">
+            <h2 class="text-sm text-stone-700 dark:text-stone-300 mb-4 font-semibold">Yesterday, you focused on:</h2>
+            <ul id="yesterday-list" class="space-y-3">
                 <!-- Items injected by JS -->
             </ul>
         </div>
 
-        <!-- 4. Input View (Default State) -->
+        <!-- 4. Input View -->
         <form id="priority-form" class="space-y-8 fade-in">
             <div class="space-y-6">
-                <label class="block text-xl text-stone-800 dark:text-stone-200 font-normal mb-6">What matters today?</label>
+                <label class="block text-xl text-stone-900 dark:text-stone-100 font-medium mb-6">What matters today?</label>
                 
-                <div class="relative">
-                    <!-- Improved contrast for numbers: text-stone-400 -> text-stone-500 -->
+                <div class="relative group">
                     <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">01</span>
-                    <!-- Improved contrast for placeholder: placeholder-stone-400 -> placeholder-stone-500 -->
                     <input type="text" id="p1" name="p1" autocomplete="off" aria-label="Priority 1"
-                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-500 dark:placeholder-stone-500 bg-transparent focus:ring-0"
+                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 bg-transparent focus:ring-0"
                         placeholder="Most important task..." required maxlength="60">
                 </div>
 
-                <div class="relative">
+                <div class="relative group">
                     <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">02</span>
                     <input type="text" id="p2" name="p2" autocomplete="off" aria-label="Priority 2"
-                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-500 dark:placeholder-stone-500 bg-transparent focus:ring-0"
+                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 bg-transparent focus:ring-0"
                         placeholder="Quick win..." required maxlength="60">
                 </div>
 
-                <div class="relative">
+                <div class="relative group">
                     <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">03</span>
                     <input type="text" id="p3" name="p3" autocomplete="off" aria-label="Priority 3"
-                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-500 dark:placeholder-stone-500 bg-transparent focus:ring-0"
+                        class="priority-input w-full pl-8 py-2 text-lg text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 bg-transparent focus:ring-0"
                         placeholder="Personal goal..." required maxlength="60">
                 </div>
             </div>
             
             <div class="pt-6 flex flex-col items-center space-y-4">
-                <button type="submit" id="main-action-btn"
-                    class="px-8 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-medium hover:opacity-90 transition-opacity duration-300 w-full sm:w-auto shadow-md flex items-center gap-2">
+                <button type="submit" id="main-action-btn" title="Shortcut: Cmd/Ctrl + Enter"
+                    class="px-8 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-semibold hover:bg-stone-800 dark:hover:bg-white transition-colors duration-300 w-full sm:w-auto shadow-md flex items-center justify-center gap-2">
                     Decide Today <span>&rarr;</span>
                 </button>
-                <!-- Improved contrast: text-stone-400 -> text-stone-500 -->
-                <p id="trust-badges" class="text-xs text-stone-500 dark:text-stone-400">No sign-up · Works offline · Free to use</p>
-                <!-- Hidden Streak Message -->
-                <p id="streak-msg" class="hidden-app text-center text-xs text-stone-600 dark:text-stone-400 mt-4">You're building consistency.</p>
+                <p id="trust-badges" class="text-xs text-stone-600 dark:text-stone-400 font-medium">No sign-up · Works offline · Free to use</p>
+                <p id="streak-msg" class="hidden-app text-center text-xs text-stone-700 dark:text-stone-300 mt-4">You're building consistency.</p>
             </div>
         </form>
 
-        <!-- 5. Read-Only View (Hidden by default) -->
+        <!-- 5. Read-Only View -->
         <div id="readonly-view" class="hidden-app space-y-8 fade-in">
             <div class="space-y-6">
                 <div class="flex justify-between items-end mb-6">
-                    <h2 class="block text-xl text-stone-800 dark:text-stone-200 font-light">Today's Focus</h2>
-                    <button id="edit-btn" class="text-xs text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300 underline">Edit priorities</button>
+                    <h2 class="block text-xl text-stone-900 dark:text-stone-100 font-semibold">Today's Focus</h2>
+                    <div class="flex items-center space-x-4">
+                        <button id="copy-btn" class="text-xs text-stone-600 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100 transition-colors flex items-center gap-1" aria-label="Copy to clipboard">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <span id="copy-text">Share</span>
+                        </button>
+                        <button id="edit-btn" class="text-xs text-stone-600 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100 underline">Edit</button>
+                    </div>
                 </div>
-                <!-- Items populated by JS -->
-                <div id="readonly-list" class="space-y-6"></div>
+                <div id="readonly-list" class="space-y-3"></div>
+                <p class="text-[11px] text-stone-400 dark:text-stone-500 text-center mt-2 italic fade-in">Tip: Tap a priority to cross it off. Double-tap to edit.</p>
             </div>
             
-            <!-- Footer Status Message -->
             <div id="footer-status" class="mt-16 pb-8 text-center fade-in flex flex-col items-center space-y-6">
-                <!-- Status Text injected by JS -->
-                <div id="status-text-container" class="inline-flex items-center space-x-2 text-stone-600 dark:text-stone-400"></div>
-                <!-- Controls (Reminder/Export) injected by JS -->
-                <div id="footer-controls" class="flex gap-6 text-xs text-stone-500 dark:text-stone-400"></div>
+                <div id="status-text-container" class="inline-flex items-center space-x-2 text-stone-700 dark:text-stone-300 font-medium"></div>
+                <div id="footer-controls" class="flex gap-6 text-sm text-stone-600 dark:text-stone-400 font-medium"></div>
             </div>
         </div>
 
-        <!-- 6. Weekly Glimpse (Hidden) -->
-        <div id="weekly-glimpse" class="hidden-app mt-8 p-6 bg-stone-100 dark:bg-stone-900 rounded-lg text-center fade-in">
-            <!-- Content injected by JS -->
-        </div>
+        <!-- 6. Weekly Glimpse -->
+        <div id="weekly-glimpse" class="hidden-app mt-8 p-6 bg-stone-100 dark:bg-stone-900 rounded-lg text-center fade-in"></div>
 
-        <!-- 7. Closure Section (Hidden) -->
+        <!-- 7. Closure Section -->
         <div id="closure-section" class="hidden-app mt-12 pt-12 border-t border-stone-200 dark:border-stone-800 fade-in text-center">
-             <h3 class="text-lg text-stone-600 dark:text-stone-400 mb-6 font-light">Did you do what mattered?</h3>
-             <div class="flex justify-center gap-3" id="closure-buttons">
-                 <button data-val="yes" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-700 dark:text-stone-300 text-sm font-medium hover:border-stone-500">Yes</button>
-                 <button data-val="partial" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-700 dark:text-stone-300 text-sm font-medium hover:border-stone-500">Partially</button>
-                 <button data-val="no" class="closure-btn px-4 py-2 border border-stone-300 dark:border-stone-700 rounded text-stone-700 dark:text-stone-300 text-sm font-medium hover:border-stone-500">Not really</button>
+             <h3 class="text-lg text-stone-800 dark:text-stone-200 mb-6 font-semibold">Did you do what mattered?</h3>
+             <div class="flex flex-wrap justify-center gap-3" id="closure-buttons">
+                 <button data-val="yes" class="closure-btn px-4 py-2 border-2 border-stone-300 dark:border-stone-700 rounded text-stone-800 dark:text-stone-200 text-sm font-semibold hover:border-stone-500 transition-colors">Yes</button>
+                 <button data-val="partial" class="closure-btn px-4 py-2 border-2 border-stone-300 dark:border-stone-700 rounded text-stone-800 dark:text-stone-200 text-sm font-semibold hover:border-stone-500 transition-colors">Partially</button>
+                 <button data-val="no" class="closure-btn px-4 py-2 border-2 border-stone-300 dark:border-stone-700 rounded text-stone-800 dark:text-stone-200 text-sm font-semibold hover:border-stone-500 transition-colors">Not really</button>
              </div>
         </div>
-
     </main>
 
-    <!-- SEO Content (Static HTML, Single Column, High Contrast Cards) -->
+    <!-- FULL SEO Content Blocks (Fully Restored) -->
     <article class="w-full max-w-2xl mx-auto mt-[100px] mb-16 px-4 sm:px-6 prose prose-stone dark:prose-invert">
         <div class="space-y-8 text-stone-700 dark:text-stone-400">
             <!-- Intro -->
@@ -278,7 +284,7 @@
                     <a href="pages/about.html" class="underline hover:text-stone-900 dark:hover:text-stone-100">Read our full story.</a>
                 </p>
             </section>
-
+            
             <!-- Differentiation -->
             <section class="bg-white dark:bg-stone-900 p-6 rounded-lg border border-stone-200 dark:border-stone-800 shadow-sm">
                 <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2 mt-0">
@@ -531,6 +537,16 @@
                         <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">13. How long does it take to use DECIDE each day?</h3>
                         <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">Most users complete their daily decision in under one minute. That’s the point.</p>
                     </div>
+
+                    <!-- Q14 -->
+                    <div class="p-5 bg-stone-100 dark:bg-stone-900 rounded-lg">
+                        <h3 class="font-bold text-stone-900 dark:text-stone-100 mb-2 mt-0">14. Are there any keyboard shortcuts?</h3>
+                        <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">
+                            <strong class="text-stone-900 dark:text-stone-100">Yes.</strong> For desktop power users who want to move fast without touching their mouse: <br><br>
+                            • Press <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Cmd + Enter</kbd> (Mac) or <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Ctrl + Enter</kbd> (Windows) to instantly save your priorities.<br>
+                            • Press <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Escape</kbd> to quickly close any open menus or popups.
+                        </p>
+                    </div>
                 </div>
             </section>
 
@@ -543,55 +559,63 @@
         </div>
         
         <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-500 dark:text-stone-400">
-        <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
-        <div class="mt-4 flex justify-center gap-4">
-            <a href="pages/about.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">About</a>
-            <a href="pages/why-three.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Why Three?</a>
-            <a href="pages/why-three.html#faq" class="hover:text-stone-700 dark:hover:text-stone-300 underline">FAQ</a>
-            <a href="pages/privacy-policy-terms.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy & Terms</a>
-        </div>
-        <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE. <a href="https://toolblaster.com" class="hover:text-stone-700 dark:hover:text-stone-300 underline">toolblaster.com</a> All Rights Reserved.</p>
-    </footer>
+            <p>Category: Productivity · Daily Priority Tool · Focus & Clarity Tool</p>
+            <div class="mt-4 flex justify-center gap-4">
+                <a href="pages/about.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">About</a>
+                <a href="pages/why-three.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Why Three?</a>
+                <a href="pages/why-three.html#faq" class="hover:text-stone-700 dark:hover:text-stone-300 underline">FAQ</a>
+                <a href="pages/privacy-policy-terms.html" class="hover:text-stone-700 dark:hover:text-stone-300 underline">Privacy & Terms</a>
+            </div>
+            <p class="mt-4">&copy; <script>document.write(new Date().getFullYear())</script> DECIDE. <a href="https://toolblaster.com" class="hover:text-stone-700 dark:hover:text-stone-300 underline">toolblaster.com</a> All Rights Reserved.</p>
+        </footer>
     </article>
 
-    <!-- Modals (Static HTML, Hidden via CSS) -->
-    <!-- Privacy Modal code removed as it is now a separate page -->
-
+    <!-- Modals -->
     <div id="edit-modal" class="modal-backdrop">
-        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl text-center">
-            <h3 class="text-lg font-semibold text-stone-800 dark:text-stone-200 mb-2">Edit today’s priorities?</h3>
-            <p class="text-stone-500 dark:text-stone-400 text-sm mb-6">Editing is meant for small corrections, not replanning the day.</p>
+        <div class="bg-white dark:bg-stone-900 p-8 rounded-xl max-w-sm w-full shadow-2xl text-center border border-stone-200 dark:border-stone-800">
+            <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">Edit priorities?</h3>
+            <p class="text-stone-600 dark:text-stone-400 text-sm mb-6">Editing is meant for small corrections, not replanning the day.</p>
             <div class="flex gap-4 justify-center">
-                <button id="cancel-edit-btn" class="px-6 py-2 border border-stone-300 dark:border-stone-700 rounded-full text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">Cancel</button>
-                <button id="confirm-edit-btn" class="px-6 py-2 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full hover:opacity-90 transition-opacity">Edit</button>
+                <button id="cancel-edit-btn" class="px-6 py-2 border-2 border-stone-300 dark:border-stone-700 rounded-full text-stone-700 dark:text-stone-300 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">Cancel</button>
+                <button id="confirm-edit-btn" class="px-6 py-2 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-semibold hover:opacity-90 transition-opacity">Edit</button>
             </div>
         </div>
     </div>
     
-    <div id="paywall-modal" class="modal-backdrop">
-         <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl text-center">
-            <h3 class="text-xl font-bold text-stone-800 dark:text-stone-100 mb-2">Keep your decisions</h3>
-            <p class="text-stone-500 dark:text-stone-400 text-sm mb-6">Upgrade to export your priorities.</p>
-            <div class="flex flex-col gap-3">
-                <button id="upgrade-btn" class="w-full py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-lg font-bold">Upgrade</button>
-                <button id="paywall-close-btn" class="w-full py-2 text-stone-400 text-sm">Not now</button>
-            </div>
-        </div>
-    </div>
-
     <div id="export-options-modal" class="modal-backdrop">
-        <div class="bg-white dark:bg-stone-900 p-8 rounded-lg max-w-sm w-full shadow-2xl">
-            <h3 class="text-lg font-bold text-stone-800 dark:text-stone-100 mb-4 text-center">Export Priorities</h3>
+        <div class="bg-white dark:bg-stone-900 p-8 rounded-xl max-w-sm w-full shadow-2xl border border-stone-200 dark:border-stone-800">
+            <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4 text-center">Export & Backup</h3>
+            <p class="text-stone-600 dark:text-stone-400 text-sm mb-6 text-center">Download your history to keep it safe, or transfer it to a new device.</p>
             <div class="space-y-3">
-                <button id="export-weekly" class="w-full py-3 px-4 border border-stone-200 dark:border-stone-700 rounded-lg text-left">Weekly PDF</button>
-                <button id="export-monthly" class="w-full py-3 px-4 border border-stone-200 dark:border-stone-700 rounded-lg text-left">Monthly PDF</button>
-                <button id="export-csv" class="w-full py-3 px-4 border border-stone-200 dark:border-stone-700 rounded-lg text-left">CSV Export</button>
+                <!-- Document Exports -->
+                <button id="export-csv" class="w-full py-3 px-4 border-2 border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 rounded-lg text-left font-semibold text-stone-800 dark:text-stone-200 transition-colors flex justify-between items-center">
+                    <span>Export CSV Spreadsheet</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                </button>
+                <button id="export-pdf" class="w-full py-3 px-4 border-2 border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 rounded-lg text-left font-semibold text-stone-800 dark:text-stone-200 transition-colors flex justify-between items-center">
+                    <span>Export PDF Document</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </button>
+                
+                <!-- JSON Portability Area -->
+                <div class="pt-3 mt-2 border-t border-stone-200 dark:border-stone-800">
+                    <p class="text-[10px] font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest mb-3">Device Portability</p>
+                    <button id="export-json" class="w-full py-3 px-4 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 rounded-lg text-left font-semibold text-stone-800 dark:text-stone-200 transition-colors flex justify-between items-center mb-3">
+                        <span>Download Backup (.json)</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </button>
+                    <label class="w-full py-3 px-4 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 rounded-lg text-left font-semibold text-stone-800 dark:text-stone-200 transition-colors flex justify-between items-center cursor-pointer">
+                        <span>Restore from Backup</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <!-- Hidden input triggered by clicking the label -->
+                        <input type="file" id="import-json" accept=".json" class="hidden">
+                    </label>
+                </div>
             </div>
-            <button id="export-close-btn" class="mt-6 w-full py-2 text-stone-400 text-sm">Cancel</button>
+            <button id="export-close-btn" class="mt-6 w-full py-2 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 font-semibold text-sm transition-colors">Cancel</button>
         </div>
     </div>
 
-    <!-- Application Logic (Hydration) -->
     <script src="js/app.js"></script>
 </body>
 </html>
