@@ -194,7 +194,8 @@
         <!-- 4. Input View -->
         <form id="priority-form" class="space-y-8 fade-in">
             <div class="space-y-6">
-                <label class="block text-xl text-stone-900 dark:text-stone-100 font-medium mb-6">What matters today?</label>
+                <!-- Dynamic Contextual Greeting Added Here -->
+                <label id="greeting-label" class="block text-xl text-stone-900 dark:text-stone-100 font-medium mb-6 transition-opacity duration-300">What matters today?</label>
                 
                 <div class="relative group">
                     <span class="absolute left-0 top-2 text-stone-500 dark:text-stone-400 font-mono text-sm" aria-hidden="true">01</span>
@@ -544,7 +545,7 @@
                         <p class="text-sm leading-relaxed mb-0 text-stone-700 dark:text-stone-300">
                             <strong class="text-stone-900 dark:text-stone-100">Yes.</strong> For desktop power users who want to move fast without touching their mouse: <br><br>
                             • Press <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Cmd + Enter</kbd> (Mac) or <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Ctrl + Enter</kbd> (Windows) to instantly save your priorities.<br>
-                            • Press <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Escape</kbd> to quickly close any open menus or popups.
+                            • Press <kbd class="px-1 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-xs font-mono">Escape</kbd> to quickly close any open menus, popups, or to cancel editing your priorities.
                         </p>
                     </div>
                 </div>
