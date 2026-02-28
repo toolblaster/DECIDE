@@ -73,7 +73,6 @@ const store = {
         }
     },
 
-    // BULLETPROOF DRAFTS: Real-time background saving of unsubmitted text
     getDraft() {
         try { return JSON.parse(localStorage.getItem(DRAFT_KEY)) || []; }
         catch { return []; }
@@ -158,11 +157,20 @@ const ui = {
         this.bindEvents();
         this.render();
         
+        // TAB ANCHOR & VISIBILITY LOGIC
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
+                // Restore original title
+                document.title = "DECIDE. | Daily Priority Tool for Focus";
                 const currentYMD = store.getLocalYMD();
                 if (this.renderedDate && this.renderedDate !== currentYMD) {
                     this.render();
+                }
+            } else {
+                // Tab Anchor: Display #1 priority as the tab title when away
+                const { entry } = store.getToday();
+                if (entry && entry.priorities && entry.priorities[0] && !this.isEditing) {
+                    document.title = `🎯 1. ${entry.priorities[0]}`;
                 }
             }
         });
@@ -203,7 +211,6 @@ const ui = {
         this.dom.themeBtn?.addEventListener('click', () => this.toggleTheme());
         this.dom.form?.addEventListener('submit', (e) => this.handleSubmit(e));
         
-        // Draft Autosave Listeners
         this.dom.inputs.forEach(input => {
             input?.addEventListener('input', () => {
                 if (!this.isEditing) {
@@ -240,7 +247,6 @@ const ui = {
                 if (activeModals.length > 0) {
                     activeModals.forEach(modal => modal.classList.remove('modal-active'));
                 } else if (this.isEditing) {
-                    // Cancel Edit Mode and return to the Read-Only list
                     this.isEditing = false;
                     this.render();
                 }
@@ -325,8 +331,6 @@ const ui = {
         if (emptyInput) {
             emptyInput.value = taskText;
             emptyInput.focus();
-            
-            // Instantly save this new value to drafts as well
             if (!this.isEditing) {
                  store.saveDraft(this.dom.inputs.map(i => i?.value || ''));
             }
@@ -473,37 +477,57 @@ const ui = {
         const p = this.dom.inputs.map(i => i?.value?.trim()).filter(v => v);
         if (p.length === 3) {
             store.saveDay(p);
-            store.clearDraft(); // Wipe drafts upon successful save
+            store.clearDraft(); 
             this.render(this.isEditing ? "✓ Priorities updated." : null);
             this.isEditing = false;
         }
     },
     
     enterEditMode(focusIndex = 0) {
-        this.dom.editModal?.classList.remove('modal-active');
-        this.isEditing = true;
-        const { entry } = store.getToday();
-        
-        if (entry) {
-            entry.priorities.forEach((val, i) => { if (this.dom.inputs[i]) this.dom.inputs[i].value = val; });
-        }
-        
-        this.dom.form?.classList.remove('hidden-app');
-        this.dom.readonlyView?.classList.add('hidden-app');
-        this.dom.introBlock?.classList.remove('hidden-app'); 
-        if (this.dom.mainBtn) this.dom.mainBtn.innerHTML = "Save changes";
-        this.dom.trustBadges?.classList.add('hidden-app'); 
-        
-        setTimeout(() => {
-            if (this.dom.inputs[focusIndex]) {
-                this.dom.inputs[focusIndex].focus();
-                const length = this.dom.inputs[focusIndex].value.length;
-                this.dom.inputs[focusIndex].setSelectionRange(length, length);
+        const doEdit = () => {
+            this.dom.editModal?.classList.remove('modal-active');
+            this.isEditing = true;
+            const { entry } = store.getToday();
+            
+            if (entry) {
+                entry.priorities.forEach((val, i) => { if (this.dom.inputs[i]) this.dom.inputs[i].value = val; });
             }
-        }, 50);
+            
+            this.dom.form?.classList.remove('hidden-app');
+            this.dom.readonlyView?.classList.add('hidden-app');
+            this.dom.introBlock?.classList.remove('hidden-app'); 
+            if (this.dom.mainBtn) this.dom.mainBtn.innerHTML = "Save changes";
+            this.dom.trustBadges?.classList.add('hidden-app'); 
+            
+            // Increased delay slightly to allow View Transitions to finish before stealing focus
+            setTimeout(() => {
+                if (this.dom.inputs[focusIndex]) {
+                    this.dom.inputs[focusIndex].focus();
+                    const length = this.dom.inputs[focusIndex].value.length;
+                    this.dom.inputs[focusIndex].setSelectionRange(length, length);
+                }
+            }, 450); 
+        };
+
+        // CINEMATIC LAYOUT FLUIDITY wrapper for transitions
+        if (document.startViewTransition) {
+            document.startViewTransition(() => doEdit());
+        } else {
+            doEdit();
+        }
     },
     
+    // Wrapped main UI render inside View Transitions API for Cinematic Layout Fluidity
     render(customMsg = null) {
+        if (document.startViewTransition) {
+            document.startViewTransition(() => this.updateUI(customMsg));
+        } else {
+            this.updateUI(customMsg);
+        }
+    },
+
+    // Extracted the core rendering logic to cleanly support cinematic transitions
+    updateUI(customMsg) {
         store.init();
         const { date, entry } = store.getToday();
         this.renderedDate = date; 
@@ -515,7 +539,6 @@ const ui = {
         }
         this.updateThemeIcon(document.documentElement.classList.contains('dark'));
 
-        // CONTEXTUAL AWARENESS: Dynamic Greeting
         if (this.dom.greetingLabel && !this.isEditing) {
             const h = now.getHours();
             let greet = "What matters today?";
@@ -569,7 +592,6 @@ const ui = {
                 const drafts = store.getDraft();
                 if (this.dom.mainBtn) this.dom.mainBtn.innerHTML = 'Decide Today <span>&rarr;</span>';
                 this.dom.trustBadges?.classList.remove('hidden-app');
-                // Restore drafts into inputs
                 this.dom.inputs.forEach((i, idx) => { if(i) i.value = drafts[idx] || ''; }); 
             }
 
@@ -597,7 +619,6 @@ const ui = {
                     item.addEventListener('click', (e) => {
                         if (e.detail === 1) {
                             clickTimer = setTimeout(() => {
-                                // TACTILE SATISFACTION: Subtle mobile vibration
                                 if (navigator.vibrate) navigator.vibrate(40);
                                 store.toggleTaskCompletion(index);
                                 this.render();
