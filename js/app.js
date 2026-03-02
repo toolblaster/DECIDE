@@ -204,6 +204,7 @@ const ui = {
             closeExport: document.getElementById('export-close-btn'),
             exportJsonBtn: document.getElementById('export-json'),
             importJsonInput: document.getElementById('import-json'),
+            installBtn: document.getElementById('install-app-btn'),
             introBlock: document.getElementById('intro-block') 
         };
     },
@@ -211,7 +212,21 @@ const ui = {
         this.dom.themeBtn?.addEventListener('click', () => this.toggleTheme());
         this.dom.form?.addEventListener('submit', (e) => this.handleSubmit(e));
         
-        this.dom.inputs.forEach(input => {
+        this.dom.inputs.forEach((input, index) => {
+            // 1. FLOW STATE: Auto-Advance on Enter
+            input?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent default early form submission
+                    if (index < 2) {
+                        this.dom.inputs[index + 1]?.focus();
+                    } else {
+                        // On the final input, submit the form safely
+                        this.handleSubmit(new Event('submit', { cancelable: true }));
+                    }
+                }
+            });
+
+            // Existing Draft Autosave
             input?.addEventListener('input', () => {
                 if (!this.isEditing) {
                     store.saveDraft(this.dom.inputs.map(i => i?.value || ''));
@@ -240,6 +255,34 @@ const ui = {
         document.getElementById('export-pdf')?.addEventListener('click', () => this.exportToPDF('all'));
         this.dom.exportJsonBtn?.addEventListener('click', () => this.exportToJSON());
         this.dom.importJsonInput?.addEventListener('change', (e) => this.importFromJSON(e));
+
+        // 2. PERMANENT SAFE: Install App Logic (PWA)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (this.dom.installBtn) this.dom.installBtn.classList.remove('hidden-app');
+        });
+
+        // iOS fallback detection (Safari doesn't support beforeinstallprompt natively)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS && !window.navigator.standalone && this.dom.installBtn) {
+            this.dom.installBtn.classList.remove('hidden-app');
+        }
+
+        this.dom.installBtn?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    this.dom.installBtn.classList.add('hidden-app');
+                }
+                deferredPrompt = null;
+            } else if (isIOS) {
+                alert("To protect your data and install on iOS: Tap the Share button (square with an arrow) at the bottom of your screen, then select 'Add to Home Screen'.");
+            }
+        });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
